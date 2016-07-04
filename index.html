@@ -15,10 +15,31 @@ function httpGet(theUrl)
 </script>
 
 
-<script>
+<!-- <script>
 var para = document.createElement("p");
-var node = document.createTextNode(httpGet("http://cors.io/?u=https://cobalt.qas.im/api/1.0/buildings/080?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8"));
+var node = document.createTextNode(httpGet("http://cors.io/?u=https://cobalt.qas.im/api/1.0/courses/CSC148H1F20169?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8"));
 para.appendChild(node);
 var element = document.getElementById("div1");
 element.appendChild(para);
+</script> -->
+
+<input type = "text"
+       id = "txtSearch"
+       onkeydown = "if (event.keyCode == 13)
+                    search()"
+/>
+
+<script type="text/javascript">
+function search() {
+  var urlString = "https://crossorigin.me/https://cobalt.qas.im/api/1.0/courses/search?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8&q=\"";
+  var searchParams = document.getElementById('txtSearch').value;
+  console.log(searchParams);
+  var combine = urlString + searchParams + "\"";
+  console.log(combine);
+  var para = document.createElement("p");
+  var node = document.createTextNode(httpGet(combine));
+  para.appendChild(node);
+  var element = document.getElementById("div1");
+  element.appendChild(para);
+}
 </script>
