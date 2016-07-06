@@ -15,13 +15,6 @@ function httpGet(theUrl)
 </script>
 
 
-<!-- <script>
-var para = document.createElement("p");
-var node = document.createTextNode(httpGet("http://cors.io/?u=https://cobalt.qas.im/api/1.0/courses/CSC148H1F20169?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8"));
-para.appendChild(node);
-var element = document.getElementById("div1");
-element.appendChild(para);
-</script> -->
 
 <input type = "text"
        id = "txtSearch"
@@ -34,12 +27,34 @@ function search() {
   var urlString = "https://crossorigin.me/https://cobalt.qas.im/api/1.0/courses/search?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8&q=\"";
   var searchParams = document.getElementById('txtSearch').value;
   console.log(searchParams);
-  var combine = urlString + searchParams + "\"";
-  console.log(combine);
-  var para = document.createElement("p");
-  var node = document.createTextNode(httpGet(combine));
-  para.appendChild(node);
-  var element = document.getElementById("div1");
-  element.appendChild(para);
+  var jsonData = httpGet(urlString + searchParams + "\"");
+  var arr_from_json = JSON.parse(jsonData);
+
+  console.log(arr_from_json);
+  for(i = 0; i < arr_from_json.length; i++){
+    //console.log(arr_from_json[i].code);
+
+    var para2 = document.createElement("h2");
+    var node2 = document.createTextNode(arr_from_json[i].code);
+    para2.appendChild(node2);
+    var element2 = document.getElementById("div1");
+    element2.appendChild(para2);
+
+
+    var classMeetings = arr_from_json[i].meeting_sections;
+    for(j = 0; j < classMeetings.length; j++){
+      var meetingTimes = classMeetings[j];
+      for(x = 0; x < meetingTimes.instructors.length; x++){
+        //console.log(meetingTimes.instructors[x]);
+
+        var para3 = document.createElement("p");
+        var node3 = document.createTextNode(meetingTimes.instructors[x]);
+        para3.appendChild(node3);
+        var element3 = document.getElementById("div1");
+        element3.appendChild(para3);
+
+      }
+    }
+  }
 }
 </script>
