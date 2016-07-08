@@ -30,12 +30,13 @@ function search() {
   var jsonData = httpGet(urlString + searchParams + "\"");
   var arr_from_json = JSON.parse(jsonData);
 
+
   console.log(arr_from_json);
   for(i = 0; i < arr_from_json.length; i++){
-    //console.log(arr_from_json[i].code);
 
+    var courseName = arr_from_json[i].code
     var para2 = document.createElement("h2");
-    var node2 = document.createTextNode(arr_from_json[i].code);
+    var node2 = document.createTextNode(courseName);
     para2.appendChild(node2);
     var element2 = document.getElementById("div1");
     element2.appendChild(para2);
