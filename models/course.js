@@ -5,7 +5,10 @@ var Schema       = mongoose.Schema;
 
 var CourseSchema   = new Schema({
     name: String,
-    instructors: String
+    instructors: Array,
+    rating: Number,
+    numberOfRatings: Number
+
 });
 
 module.exports = mongoose.model('Course', CourseSchema);

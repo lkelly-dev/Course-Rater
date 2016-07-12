@@ -1,61 +1,82 @@
-
-<div id="div1">
-<p> THIS IS MY COURSE RATER </p>
-
+<html ng-app>
+    <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+        <script>
+        function Hello($scope, $http) {
+            $http.get('http://localhost:8080/api/courses').
+                success(function(data) {
+                    $scope.json = data;
+                });
+        }
+        </script>
+    </head>
+    <div ng-controller="Hello">
+    <div ng-repeat="json in json">
+                <p>The course is {{json.name}}</p>
+                <p>and is taught by {{json.instructors[1]}}</p>
+                <p>it has a {{json.rating}} star rating</p>
+                <p>from {{json.numberOfRatings}} reviews.</p>
+    </div>
 </div>
+</html>
+<!--
+    <div id="div1">
+    <p> THIS IS MY COURSE RATER </p>
 
-<script type="text/javascript">
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
-</script>
+    </div>
 
-
-
-<input type = "text"
-       id = "txtSearch"
-       onkeydown = "if (event.keyCode == 13)
-                    search()"
-/>
-
-<script type="text/javascript">
-function search() {
-  var urlString = "https://crossorigin.me/https://cobalt.qas.im/api/1.0/courses/search?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8&q=\"";
-  var searchParams = document.getElementById('txtSearch').value;
-  console.log(searchParams);
-  var jsonData = httpGet(urlString + searchParams + "\"");
-  var arr_from_json = JSON.parse(jsonData);
+    <script type="text/javascript">
+    function httpGet(theUrl)
+    {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+    </script>
 
 
-  console.log(arr_from_json);
-  for(i = 0; i < arr_from_json.length; i++){
 
-    var courseName = arr_from_json[i].code
-    var para2 = document.createElement("h2");
-    var node2 = document.createTextNode(courseName);
-    para2.appendChild(node2);
-    var element2 = document.getElementById("div1");
-    element2.appendChild(para2);
+    <input type = "text"
+           id = "txtSearch"
+           onkeydown = "if (event.keyCode == 13)
+                        search()"
+    />
+
+    <script type="text/javascript">
+    function search() {
+      var urlString = "https://crossorigin.me/https://cobalt.qas.im/api/1.0/courses/search?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8&q=\"";
+      var searchParams = document.getElementById('txtSearch').value;
+      console.log(searchParams);
+      var jsonData = httpGet(urlString + searchParams + "\"");
+      var arr_from_json = JSON.parse(jsonData);
 
 
-    var classMeetings = arr_from_json[i].meeting_sections;
-    for(j = 0; j < classMeetings.length; j++){
-      var meetingTimes = classMeetings[j];
-      for(x = 0; x < meetingTimes.instructors.length; x++){
-        //console.log(meetingTimes.instructors[x]);
+      console.log(arr_from_json);
+      for(i = 0; i < arr_from_json.length; i++){
 
-        var para3 = document.createElement("p");
-        var node3 = document.createTextNode(meetingTimes.instructors[x]);
-        para3.appendChild(node3);
-        var element3 = document.getElementById("div1");
-        element3.appendChild(para3);
+        var courseName = arr_from_json[i].code
+        var para2 = document.createElement("h2");
+        var node2 = document.createTextNode(courseName);
+        para2.appendChild(node2);
+        var element2 = document.getElementById("div1");
+        element2.appendChild(para2);
 
+
+        var classMeetings = arr_from_json[i].meeting_sections;
+        for(j = 0; j < classMeetings.length; j++){
+          var meetingTimes = classMeetings[j];
+          for(x = 0; x < meetingTimes.instructors.length; x++){
+            //console.log(meetingTimes.instructors[x]);
+
+            var para3 = document.createElement("p");
+            var node3 = document.createTextNode(meetingTimes.instructors[x]);
+            para3.appendChild(node3);
+            var element3 = document.getElementById("div1");
+            element3.appendChild(para3);
+
+          }
+        }
       }
     }
-  }
-}
-</script>
+    </script> -->

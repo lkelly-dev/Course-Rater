@@ -7,6 +7,7 @@ mongoose.connect('mongodb://localhost/library_database'); // connect to our data
 console.log(mongoose.connection.readyState);
 // call the packages we need
 var express    = require('express');        // call express
+var cors       = require('cors');
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 var Course     = require('./models/course');
@@ -14,6 +15,7 @@ var Course     = require('./models/course');
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 var port = process.env.PORT || 8080;        // set our port
 
@@ -52,7 +54,8 @@ router.route('/courses')
         var course = new Course();      // create a new instance of the Course model
         course.name = req.body.name; //set the courses name
         course.instructors = req.body.instructors;  // set the courses instructors (comes from the request)
-
+        course.rating = req.body.rating;
+        course.numberOfRatings = req.body.numberOfRatings;
         // save the course and check for errors
         course.save(function(err) {
             if (err)
@@ -84,6 +87,8 @@ router.route('/courses/:course_id')
 
             course.name = req.body.name;  // update the courses info
             course.instructors = req.body.instructors;
+            course.rating = req.body.rating;
+            course.numberOfRatings = req.body.numberOfRatings;
 
             // save the course
             course.save(function(err) {
