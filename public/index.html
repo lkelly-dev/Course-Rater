@@ -5,12 +5,14 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/ngProgress.css">
 <link rel="stylesheet" href="css/toaster.css">
+<link rel="stylesheet" href="css/mycss.css">
 <style>
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
 display: none !important;
 }
 </style>
 </head>
+<h1 class="header-title">UofT Course Rater</h1>
 <body ng-cloak>
   <div class="container" ng-controller="CoursesCtrl">
     <form name="Codenx" novalidate>
@@ -20,6 +22,7 @@ display: none !important;
           <th>Name</th>
           <th>Instructors</th>
           <th>Rating</th>
+          <th>Number of Ratings</th>
           <th>Action</th>
           <th>&nbsp;</th>
         </tr>
@@ -29,6 +32,7 @@ display: none !important;
           <td><input class="form-control" ng-model="course.name" required="" placeholder="Course Name"></td>
           <td><input class="form-control" ng-model="course.instructors" placeholder="Course Instructors"></td>
           <td><input class="form-control" ng-model="course.rating" placeholder="Should be a number"></td>
+          <td></td>
           <td><button class="btn btn-primary" ng-click="add(course)" ng-if="!course._id" type="submit" ng-disabled="!Codenx.$valid">Add Course</button>
             <div class="btn-group">
               <button class="btn btn-info" ng-click="update(course)" ng-if="course._id" type="submit">Update</button>
@@ -40,6 +44,7 @@ display: none !important;
           <td>{{course.name}}</td>
           <td>{{course.instructors}}</td>
           <td>{{course.rating}}</td>
+          <td>{{course.numberOfRatings}}</td>
           <td>
             <div class="btn-group">
               <button class="btn btn-danger" ng-click="remove(course)">Remove</button>
@@ -50,12 +55,20 @@ display: none !important;
       </tbody>
     </table>
   </form>
+      <input type = "text"
+             id = "txtSearch"
+             onkeydown = "if (event.keyCode == 13)
+                          populate_server()"
+      />
+
+
 
   </div>
 
 <div data-loading></div>
 <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
 
+<script src="populate_server.js"></script>
 <script src="js/angular.min.js"></script>
 <script src="js/angular-resource.min.js"></script>
 <script src="js/angular-animate.min.js"></script>

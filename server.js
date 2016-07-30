@@ -3,7 +3,8 @@
 // BASE SETUP
 // =============================================================================
 var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost/library_database'); // connect to our database
+mongoose.connect('mongodb://liam123:liam123@ds031571.mlab.com:31571/courserater'); // connect to our database
+//mongodb://localhost/library_database
 console.log(mongoose.connection.readyState);
 // call the packages we need
 var express    = require('express');        // call express
