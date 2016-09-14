@@ -7,15 +7,16 @@ function httpGet(theUrl)
     return xmlHttp.responseText;
 }
 
-function httpPost(theUrl)
+function httpPost1(theUrl)
 {
+  var course = new Course();
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.open("POST", theUrl, true);
-  xmlHttp.send("name=CSC158");
+  xmlHttp.send("course.name = CSC158");
 
 }
 
-function populate_server() {
+function populate_server1() {
   var urlString = "https://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
   var jsonData = httpGet(urlString);
   var arr_from_json = JSON.parse(jsonData);
@@ -39,3 +40,13 @@ function populate_server() {
     }
   }
 }
+
+
+
+
+
+
+//course.name = name from json
+//course.instructors = instructors from json
+//course.rating = 0
+//course.numberOfRatings = 0
