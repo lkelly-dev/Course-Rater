@@ -1,6 +1,7 @@
-app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster) {
+app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $http) {
 
     $scope.course = new Course();
+    $scope.results = [];
 
     var refresh = function() {
         $scope.courses = Course.query();
@@ -54,11 +55,14 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster) {
         });
     };
 
-    httpPost = function(name, instructors) {
-        //var xmlHttp = new XMLHttpRequest();
-        //xmlHttp.open("POST", theUrl, true);
-        //xmlHttp.send("course.name = CSC158");
-        //console.log(name + " " + instructors);
+    httpGet = function(theUrl) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", theUrl, false); // false for synchronous request
+        xmlHttp.send(null);
+        return xmlHttp.responseText;
+    };
+
+    createCourse = function(name, instructors) {
         $scope.course = new Course();
         $scope.course.name = name;
         $scope.course.instructors = instructors;
@@ -68,7 +72,7 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster) {
     };
 
     populate_server = function() {
-        var urlString = "https://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
+        var urlString = "http://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?limit=50&skip=1220&key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
         var jsonData = httpGet(urlString);
         var arr_from_json = JSON.parse(jsonData);
 
@@ -87,7 +91,23 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster) {
                     //console.log(instructors + "LOL");
                 }
             }
-            httpPost(courseName, instructors);
+            createCourse(courseName, instructors);
         }
+    };
+
+
+    $scope.search = function(val) {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/api/courses'
+        }).
+        success(function(data, status, headers, config) {
+            $scope.results = [];
+            for (i = 0; i < data.length; i++) {
+                if (data[i].name.includes(val)) {
+                    $scope.results.push(data[i]);
+                }
+            }
+        })
     };
 })

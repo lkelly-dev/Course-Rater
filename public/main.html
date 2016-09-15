@@ -46,8 +46,10 @@
                                 <button class="btn" ng-click="deselect()" ng-if="course._id">Clear</button>
                             </div>
                         </td>
+
                     </tr>
-                    <tr ng-repeat="course in courses">
+                    <tr><input class="form-control"  required="" placeholder="Search for a course" search></tr>
+                    <tr ng-repeat="course in results">
                         <td>{{course.name}}</td>
                         <td style="width: 300px;">{{course.instructors}}</td>
                         <td>{{course.rating}}</td>
@@ -61,7 +63,7 @@
                     </tr>
                 </tbody>
             </table>
-            <button class="btn btn-primary" onclick="populate_server();" type="submit">Populate</button>
+
 
     </div>
 

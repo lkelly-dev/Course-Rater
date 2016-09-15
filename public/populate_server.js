@@ -1,5 +1,5 @@
 
-function httpGet(theUrl)
+function httpGet1(theUrl)
 {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
