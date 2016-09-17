@@ -1,4 +1,37 @@
 .header-title {
-  color: #002f65;
+  color: #ffffff;
   text-align: center;
+  line-height: 150px;
+  margin-top: 0px;
+}
+
+.header-courserater{
+  background-color:#002f65;
+  height: 150px;
+  margin-bottom: 15px;
+}
+
+.card2{
+  padding:1.5rem;
+    box-shadow:0 1px 2px #aaa;
+    background:white;
+    margin:0 1rem 1rem;
+    border-radius:3px;
+    animation:fly-in-from-left .5s 1s ease
+
+}
+
+.card {
+    background:white;
+    box-shadow: 0 2px 0px 0 rgba(0,0,0,0.2) !important;
+    transition: 0.3s !important;
+}
+
+/*.card:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
+    background: white;
+}*/
+
+.courserater-body{
+  background:#d5d5d5;
 }

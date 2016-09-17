@@ -17,12 +17,16 @@
             display: none !important;
         }
     </style>
+    <div class="header-courserater">
+        <h1 class="header-title">UofT Course Rater</h1>
+    </div>
 </head>
-<h1 class="header-title">UofT Course Rater</h1>
-<body ng-cloak>
+
+<body class="courserater-body" ng-cloak>
     <div class="container" ng-controller="CoursesCtrl">
         <form name="Codenx" novalidate>
-            <table class="table">
+            <table class="table" style="border-collapse: separate;
+    border-spacing: 0px 10px;">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -36,35 +40,40 @@
                 <tbody>
                     <tr>
                         <td><input class="form-control" ng-model="course.name" required="" placeholder="Course Name"></td>
-                        <td><input class="form-control" ng-model="course.instructors" placeholder="Course Instructors"></td>
+                        <td><input style="width:300px;" class="form-control" ng-model="course.instructors" placeholder="Course Instructors (Separate with comma)"></td>
                         <td><input class="form-control" ng-model="course.new_rating" placeholder="Should be a number"></td>
                         <td></td>
                         <td>
                             <button class="btn btn-primary" ng-click="add(course); course.instructors = fix_array(course.instructors); course.numberOfRatings = 1;  course.rating = course.new_rating;" ng-if="!course._id" type="submit" ng-disabled="!Codenx.$valid">Add Course</button>
                             <div class="btn-group">
-                                <button class="btn btn-info" ng-click="update(course); course.rating = rating_update(course.new_rating, course.rating, course.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1);" ng-if="course._id" type="submit">Update</button>
+                                <button class="btn btn-info" ng-click="update(course, search_param); course.rating = rating_update(course.new_rating, course.rating, course.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1);" ng-if="course._id" type="submit">Submit</button>
                                 <button class="btn" ng-click="deselect()" ng-if="course._id">Clear</button>
                             </div>
                         </td>
 
                     </tr>
-                    <tr><input class="form-control"  required="" placeholder="Search for a course" search></tr>
-                    <tr ng-repeat="course in results">
-                        <td>{{course.name}}</td>
-                        <td style="width: 300px;">{{course.instructors}}</td>
-                        <td>{{course.rating}}</td>
-                        <td>{{course.numberOfRatings}}</td>
-                        <td>
-                            <div class="btn-group">
-                                <button class="btn btn-danger" ng-click="remove(course)">Remove</button>
-                                <button class="btn btn-warning" ng-click="edit(course._id)">Edit</button>
-                            </div>
+                    <tr><input class="form-control" ng-model="search_param" required="" placeholder="Search for a course" search></tr>
+                </tbody>
+                <tbody>
+                    <tr ng-repeat="course in results" class="card">
+                        <td class="card">{{course.name}}</td>
+                        <td class="card" style="width: 300px;">
+                            <table>
+                                <tr ng-repeat="prof in course.instructors track by $index">
+                                    <td>
+                                        {{prof}}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="card">{{course.rating}}</td>
+                        <td class="card">{{course.numberOfRatings}}</td>
+                        <td class="card">
+                            <button style="width: 75%" class="btn btn-danger" ng-click="rate(course._id)">Rate</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
-
-
     </div>
 
     <div data-loading></div>

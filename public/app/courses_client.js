@@ -15,8 +15,9 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
         });
     };
 
-    $scope.update = function(course) {
+    $scope.update = function(course, search_param) {
         course.$update(function() {
+          $scope.search(search_param);
             refresh();
         });
     };
@@ -28,6 +29,12 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
     };
 
     $scope.edit = function(id) {
+        $scope.course = Course.get({
+            id: id
+        });
+    };
+
+    $scope.rate = function(id) {
         $scope.course = Course.get({
             id: id
         });
