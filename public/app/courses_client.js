@@ -79,7 +79,7 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
     };
 
     populate_server = function() {
-        var urlString = "http://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?limit=50&skip=1220&key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
+        var urlString = "http://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?limit=50&skip=450&key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
         var jsonData = httpGet(urlString);
         var arr_from_json = JSON.parse(jsonData);
 
@@ -94,7 +94,11 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
                 var meetingTimes = classMeetings[j];
                 for (x = 0; x < meetingTimes.instructors.length; x++) {
                     //console.log(meetingTimes.instructors[x]);
-                    instructors.push(meetingTimes.instructors[x]);
+                    if (instructors.indexOf(meetingTimes.instructors[x]) > -1) {
+                          //In the array!
+                      } else {
+                          instructors.push(meetingTimes.instructors[x]);
+                    }
                     //console.log(instructors + "LOL");
                 }
             }

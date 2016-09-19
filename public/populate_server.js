@@ -33,8 +33,13 @@ function populate_server1() {
       var meetingTimes = classMeetings[j];
       for(x = 0; x < meetingTimes.instructors.length; x++){
         //console.log(meetingTimes.instructors[x]);
-        var instructors = meetingTimes.instructors[x];
-        console.log(instructors + "LOL");
+        if (Arrays.asList(instructors).contains(meetingTimes.instructors[x])) {
+
+        }
+        else{
+          var instructors = meetingTimes.instructors[x];
+          console.log(instructors + "LOL");
+        }
 
       }
     }

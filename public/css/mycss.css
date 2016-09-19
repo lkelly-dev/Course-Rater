@@ -7,7 +7,7 @@
 
 .header-courserater{
   background-color:#002f65;
-  height: 150px;
+  height: 125px;
   margin-bottom: 15px;
 }
 
@@ -23,8 +23,12 @@
 
 .card {
     background:white;
-    box-shadow: 0 2px 0px 0 rgba(0,0,0,0.2) !important;
-    transition: 0.3s !important;
+    box-shadow: 0 2px 0px 0 rgba(0, 47, 101, 1);
+    transition: 0.3s;
+}
+
+.blue{
+  color: #002f65;
 }
 
 /*.card:hover {
