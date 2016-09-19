@@ -7,8 +7,10 @@
 
 .header-courserater{
   background-color:#002f65;
-  height: 125px;
+  /*height: 125px;*/
+  height: 250px;
   margin-bottom: 15px;
+  text-align: center;
 }
 
 .card2{

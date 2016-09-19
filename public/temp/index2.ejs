@@ -1,0 +1,94 @@
+<!-- views/index.ejs -->
+<!doctype html ng-app="CourseRater">
+<html>
+<head>
+    <title>Node Authentication</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <script src="populate_server.js"></script>
+    <!-- <script src="js/angular.min.js"></script> -->
+    <!-- <script src="js/angular-resource.min.js"></script>
+    <script src="js/angular-animate.min.js"></script> -->
+    <!-- <script src="js/ngProgress.min.js"></script>
+    <script src="js/toaster.js"></script>
+    <script src="app/app.js"></script> -->
+    <script src="../../app/courses_client.js"></script>
+    <style>
+        body        { padding-top:81px; }
+    </style>
+
+
+</head>
+<body class="courserater-body" ng-cloak>
+<div class="container">
+
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-lock"></span> UofT Course Rater</h1>
+
+        <p>Login or Register with:</p>
+
+        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+    </div>
+
+</div>
+
+
+
+    <div class="container" ng-controller="CoursesCtrl">
+        <form name="Codenx" novalidate>
+            <table class="table" style="border-collapse: separate;
+    border-spacing: 0px 10px;">
+                <thead class="card">
+                    <tr>
+                        <th>Name</th>
+                        <th>Instructors</th>
+                        <th>Rating</th>
+                        <th>Number of Ratings</th>
+                        <th>Action</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input class="form-control" ng-model="course.name" required="" placeholder="Course Name"></td>
+                        <td><input style="width:300px;" class="form-control" ng-model="course.instructors" placeholder="Course Instructors (Separate with comma)"></td>
+                        <td><input class="form-control" ng-model="course.new_rating" placeholder="Should be a number"></td>
+                        <td></td>
+                        <td>
+                            <button class="btn btn-primary" style="background-color: 002f65;" ng-click="add(course); course.instructors = fix_array(course.instructors); course.numberOfRatings = 1;  course.rating = course.new_rating;" ng-if="!course._id" type="submit" ng-disabled="!Codenx.$valid">Add Course</button>
+                            <div class="btn-group">
+                                <button class="btn btn-info" ng-click="update(course, search_param); course.rating = rating_update(course.new_rating, course.rating, course.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1);" ng-if="course._id" type="submit">Submit</button>
+                                <button class="btn" ng-click="deselect()" ng-if="course._id">Clear</button>
+                            </div>
+                        </td>
+
+                    </tr>
+                    <tr><input class="form-control" ng-model="search_param" required="" placeholder="Search for a course" search></tr>
+                </tbody>
+                <tbody>
+                    <tr ng-repeat="course in results" class="card">
+                        <td class="card">{{course.name}}</td>
+                        <td class="card" style="width: 300px;">
+                            <table>
+                                <tr ng-repeat="prof in course.instructors track by $index">
+                                    <td>
+                                        {{prof}}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="card">{{course.rating}}</td>
+                        <td class="card">{{course.numberOfRatings}}</td>
+                        <td class="card">
+                            <button style="width: 75%" class="btn btn-danger" ng-click="rate(course._id)">Rate</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+
+    <div data-loading></div>
+    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+</body>
+</html>

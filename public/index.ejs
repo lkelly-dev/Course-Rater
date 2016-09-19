@@ -1,30 +1,52 @@
-<!DOCTYPE>
+<!-- views/index.ejs -->
+<!doctype>
 <html ng-app="CourseRater">
-
 <head>
-    <title>UofT Course Rater</title>
+    <title>Node Authentication</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/ngProgress.css">
     <link rel="stylesheet" href="css/toaster.css">
     <link rel="stylesheet" href="css/mycss.css">
-    <style>
-        [ng\:cloak],
-        [ng-cloak],
-        [data-ng-cloak],
-        [x-ng-cloak],
-        .ng-cloak,
-        .x-ng-cloak {
-            display: none !important;
-        }
-    </style>
-    <div class="header-courserater">
-      <p style="margin-bottom: 0px; float:right; margin-right: 10px;"><a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a></p>
-      <p style="margin-bottom: 0px; float:right; margin-right: 10px;"><a href="./signup.html" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a></p>
-        <h1 class="header-title">UofT Course Rater</h1>
-    </div>
-</head>
+    <script src="populate_server.js"></script>
 
+    <script src="js/angular.min.js" type="text/javascript"></script>
+
+    <script src="js/angular-resource.min.js" type="text/javascript"></script>
+    <script src="js/angular-animate.min.js" type="text/javascript"></script>
+
+    <script src="js/ngProgress.min.js" type="text/javascript"></script>
+    <script src="js/toaster.js" type="text/javascript"></script>
+    <script src="app/app.js" type="text/javascript"></script>
+    <script src="app/courses_client.js" type="text/javascript"></script>
+
+
+    <div class="header-courserater">
+
+        <h1 class="header-title">UofT Course Rater</h1>
+        <p style="color: white;">Login or Register with:</p>
+
+        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+    </div>
+
+
+</head>
 <body class="courserater-body" ng-cloak>
+<!-- <div class="container">
+
+    <div class="jumbotron text-center">
+        <h1><span class="fa fa-lock"></span> UofT Course Rater</h1>
+
+        <p>Login or Register with:</p>
+
+        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+    </div>
+
+</div> -->
+
+
+
     <div class="container" ng-controller="CoursesCtrl">
         <form name="Codenx" novalidate>
             <table class="table" style="border-collapse: separate;
@@ -80,15 +102,5 @@
 
     <div data-loading></div>
     <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
-
-    <script src="populate_server.js"></script>
-    <script src="js/angular.min.js"></script>
-    <script src="js/angular-resource.min.js"></script>
-    <script src="js/angular-animate.min.js"></script>
-    <script src="js/ngProgress.min.js"></script>
-    <script src="js/toaster.js"></script>
-    <script src="app/app.js"></script>
-    <script src="app/courses_client.js"></script>
 </body>
-
 </html>

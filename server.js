@@ -51,7 +51,9 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
-app.set('views', __dirname + '/public/views');
+
+app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname + '/public/');
 
 
 var port = process.env.PORT || 8080; // set our port
