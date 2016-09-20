@@ -1,8 +1,9 @@
 <!-- views/index.ejs -->
 <!doctype>
 <html ng-app="CourseRater">
+
 <head>
-    <title>Node Authentication</title>
+    <title>UofT Course Rater</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/ngProgress.css">
     <link rel="stylesheet" href="css/toaster.css">
@@ -25,27 +26,20 @@
         <h1 class="header-title">UofT Course Rater</h1>
         <p style="color: white;">Login or Register with:</p>
 
-        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
-        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+        <% if(login){ %>
+        <a href="/logout" class="btn btn-default"><span class="fa fa-user"></span>Logout</a>
+        <% } else{ %>
+          <a href="/login" class="btn btn-default"><span class="fa fa-user"></span>Login</a>
+          <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span>Signup</a>
+          <% } %>
+
+
     </div>
 
 
 </head>
+
 <body class="courserater-body" ng-cloak>
-<!-- <div class="container">
-
-    <div class="jumbotron text-center">
-        <h1><span class="fa fa-lock"></span> UofT Course Rater</h1>
-
-        <p>Login or Register with:</p>
-
-        <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
-        <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
-    </div>
-
-</div> -->
-
-
 
     <div class="container" ng-controller="CoursesCtrl">
         <form name="Codenx" novalidate>
@@ -93,7 +87,14 @@
                         <td class="card">{{course.rating}}</td>
                         <td class="card">{{course.numberOfRatings}}</td>
                         <td class="card">
-                            <button style="width: 75%" class="btn btn-danger" ng-click="rate(course._id)">Rate</button>
+
+                          <% if(login){ %>
+                     <button style="width: 75%" class="btn btn-danger" ng-click="rate(course._id)">Rate</button>
+                   <% } else{ %>
+                     <td class="card">Login to rate</td>
+                  <% } %>
+
+
                         </td>
                     </tr>
                 </tbody>
@@ -103,4 +104,5 @@
     <div data-loading></div>
     <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
 </body>
+
 </html>

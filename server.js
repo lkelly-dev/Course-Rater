@@ -56,6 +56,12 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/public/');
 
 
+app.use(function (req, res, next) {
+  res.locals.login = req.isAuthenticated();
+  next();
+});
+
+
 var port = process.env.PORT || 8080; // set our port
 
 // ROUTES FOR OUR API

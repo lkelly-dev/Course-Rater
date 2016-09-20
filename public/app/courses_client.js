@@ -121,4 +121,6 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
             }
         })
     };
+
+    
 })
