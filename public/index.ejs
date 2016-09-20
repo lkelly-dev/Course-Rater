@@ -1,4 +1,3 @@
-<!-- views/index.ejs -->
 <!doctype>
 <html ng-app="CourseRater">
 
@@ -8,13 +7,10 @@
     <link rel="stylesheet" href="css/ngProgress.css">
     <link rel="stylesheet" href="css/toaster.css">
     <link rel="stylesheet" href="css/mycss.css">
-    <script src="populate_server.js"></script>
 
     <script src="js/angular.min.js" type="text/javascript"></script>
-
     <script src="js/angular-resource.min.js" type="text/javascript"></script>
     <script src="js/angular-animate.min.js" type="text/javascript"></script>
-
     <script src="js/ngProgress.min.js" type="text/javascript"></script>
     <script src="js/toaster.js" type="text/javascript"></script>
     <script src="app/app.js" type="text/javascript"></script>
@@ -24,10 +20,11 @@
     <div class="header-courserater">
 
         <h1 class="header-title">UofT Course Rater</h1>
-        <p style="color: white;">Login or Register with:</p>
+        <p style="color: white;">Sign in or out with:</p>
 
         <% if(login){ %>
-        <a href="/logout" class="btn btn-default"><span class="fa fa-user"></span>Logout</a>
+        <a href="/logout" class="btn btn-default"><span class="fa fa-user"></span>Logout</a><br>
+        <a href="/profile"class="btn btn-default"><strong>Profile</strong>: <%= user.local.email %></a>
         <% } else{ %>
           <a href="/login" class="btn btn-default"><span class="fa fa-user"></span>Login</a>
           <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span>Signup</a>
@@ -93,9 +90,7 @@
                    <% } else{ %>
                      <td class="card">Login to rate</td>
                   <% } %>
-
-
-                        </td>
+                      </td>
                     </tr>
                 </tbody>
             </table>

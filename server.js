@@ -14,7 +14,6 @@ var bodyParser = require('body-parser');
 var Course = require('./models/course');
 
 
-
 var port = process.env.PORT || 8080;
 var passport = require('passport');
 var flash = require('connect-flash');
