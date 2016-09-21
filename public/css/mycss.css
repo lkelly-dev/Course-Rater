@@ -30,6 +30,11 @@
     transition: 0.3s;
 }
 
+.card-bottom{
+  background: whitesmoke;
+
+}
+
 .blue{
   color: #002f65;
 }

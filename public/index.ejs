@@ -16,10 +16,11 @@
     <script src="app/app.js" type="text/javascript"></script>
     <script src="app/courses_client.js" type="text/javascript"></script>
 
-
     <div class="header-courserater">
 
         <h1 class="header-title">UofT Course Rater</h1>
+
+
         <p style="color: white;">Sign in or out with:</p>
 
         <% if(login){ %>
@@ -48,12 +49,10 @@
                         <th>Instructors</th>
                         <th>Rating</th>
                         <th>Number of Ratings</th>
-                        <th>Action</th>
-                        <th>&nbsp;</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <!-- <tr>
                         <td><input class="form-control" ng-model="course.name" required="" placeholder="Course Name"></td>
                         <td><input style="width:300px;" class="form-control" ng-model="course.instructors" placeholder="Course Instructors (Separate with comma)"></td>
                         <td><input class="form-control" ng-model="course.new_rating" placeholder="Should be a number"></td>
@@ -66,31 +65,35 @@
                             </div>
                         </td>
 
-                    </tr>
+                    </tr> -->
                     <tr><input class="form-control" ng-model="search_param" required="" placeholder="Search for a course" search></tr>
                 </tbody>
-                <tbody>
-                    <tr ng-repeat="course in results" class="card">
-                        <td class="card">{{course.name}}</td>
+                <tbody ng-repeat="result in results" ng-click="rate(result._id)" class="card" style="cursor: pointer;">
+                    <tr ng-click="isCollapsed = !isCollapsed;">
+                        <td class="card">{{result.name}}</td>
                         <td class="card" style="width: 300px;">
                             <table>
-                                <tr ng-repeat="prof in course.instructors track by $index">
+                                <tr ng-repeat="prof in result.instructors track by $index">
                                     <td>
                                         {{prof}}
                                     </td>
                                 </tr>
                             </table>
                         </td>
-                        <td class="card">{{course.rating}}</td>
-                        <td class="card">{{course.numberOfRatings}}</td>
-                        <td class="card">
+                        <td class="card">{{result.rating}}</td>
+                        <td class="card">{{result.numberOfRatings}}</td>
 
-                          <% if(login){ %>
-                     <button style="width: 75%" class="btn btn-danger" ng-click="rate(course._id)">Rate</button>
-                   <% } else{ %>
-                     <td class="card">Login to rate</td>
-                  <% } %>
+                     <!-- <td><button class="btn btn-danger" ng-click="rate(result._id)">Rate</button><td> -->
+
                       </td>
+                    </tr>
+                    <tr ng-show="isCollapsed">
+                      <% if(login){ %>
+                      <td class="card-bottom"><input class="form-control"  ng-model="result.new_rating" required="" placeholder="Update rating"></input></td>
+                      <td class="card-bottom"><button class="btn btn-info" ng-click="update(course, search_param); course.rating = rating_update(result.new_rating, result.rating, result.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1);" ng-if="result._id" type="submit">Submit</button></td>
+                      <% } else{ %>
+                        <td class="card-bottom">Login to Rate</td>
+                        <% } %>
                     </tr>
                 </tbody>
             </table>

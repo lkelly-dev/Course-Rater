@@ -2,6 +2,7 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
 
     $scope.course = new Course();
     $scope.results = [];
+    $scope.isCollapsed = false;
 
     var refresh = function() {
         $scope.courses = Course.query();
@@ -50,10 +51,10 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
         return Math.round(new_rating * 100) / 100;
     };
 
-    $scope.fix_array = function(instructors) {
-        var partsOfStr = instructors.split(',');
-        return partsOfStr;
-    };
+    // $scope.fix_array = function(instructors) {
+    //     var partsOfStr = instructors.split(',');
+    //     return partsOfStr;
+    // };
 
 
     add = function(course) {
@@ -80,6 +81,7 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
 
     populate_server = function() {
         var urlString = "http://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?limit=50&skip=450&key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
+
         var jsonData = httpGet(urlString);
         var arr_from_json = JSON.parse(jsonData);
 
@@ -122,5 +124,5 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
         })
     };
 
-    
+
 })
