@@ -36,15 +36,18 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
     };
 
     $scope.rate = function(id) {
+      if($scope.course._id == id){
+      }
+      else{
         $scope.course = Course.get({
             id: id
         });
+      }
     };
 
     $scope.deselect = function() {
         $scope.course = "";
     };
-
 
     $scope.rating_update = function(new_rating, rating, numberOfRatings) {
         var new_rating = ((new_rating - 0) + (rating - 0) * (numberOfRatings - 0)) / (numberOfRatings + 1);
