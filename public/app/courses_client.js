@@ -3,6 +3,7 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
     $scope.course = new Course();
     $scope.results = [];
     $scope.isCollapsed = false;
+    $scope.user = window.user;
 
     var refresh = function() {
         $scope.courses = Course.query();
@@ -15,6 +16,7 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
             refresh();
         });
     };
+
 
     $scope.update = function(course, search_param) {
         course.$update(function() {
@@ -110,6 +112,7 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
             createCourse(courseName, instructors);
         }
     };
+
 
 
     $scope.search = function(val) {
