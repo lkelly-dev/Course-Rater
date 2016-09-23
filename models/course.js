@@ -7,7 +7,8 @@ var CourseSchema = new Schema({
     name: String,
     instructors: Array,
     rating: Number,
-    numberOfRatings: Number
+    numberOfRatings: Number,
+    building: String
 
 });
 

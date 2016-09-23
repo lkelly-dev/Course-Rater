@@ -1,6 +1,7 @@
-app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $http) {
+app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toaster, $http) {
 
     $scope.course = new Course();
+    $scope.rating = new Rating();
     $scope.results = [];
     $scope.isCollapsed = false;
     $scope.user = window.user;
@@ -75,19 +76,31 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
         return xmlHttp.responseText;
     };
 
-    createCourse = function(name, instructors) {
+    createCourse = function(name, instructors, location) {
         $scope.course = new Course();
         $scope.course.name = name;
         $scope.course.instructors = instructors;
         $scope.course.rating = 0;
         $scope.course.numberOfRatings = 0;
+        $scope.course.building = location;
+        console.log(location);
         add($scope.course);
     };
 
-    populate_server = function() {
-        var urlString = "http://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?limit=50&skip=450&key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
+    readJson = function(file) {
+    var request = new XMLHttpRequest();
+    request.open('GET', file, false);
+    request.send(null);
+    if (request.status == 200)
+        return request.responseText;
+};
 
-        var jsonData = httpGet(urlString);
+    populate_server = function() {
+        //var urlString = "http://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?limit=50&skip=450&key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
+
+        //var jsonData = httpGet(urlString);
+        //var arr_from_json = JSON.parse(jsonData);
+        var jsonData = httpGet("https://api.myjson.com/bins/2p48o");
         var arr_from_json = JSON.parse(jsonData);
 
         console.log(arr_from_json);
@@ -96,7 +109,13 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
                 //console.log(courseName);
                 //console.log(instructors);
             var instructors = [];
+            var location = "";
             var classMeetings = arr_from_json[i].meeting_sections;
+
+            if(classMeetings[0] && classMeetings[0].times[0]){
+              location = classMeetings[0].times[0].location;
+            }
+
             for (j = 0; j < classMeetings.length; j++) {
                 var meetingTimes = classMeetings[j];
                 for (x = 0; x < meetingTimes.instructors.length; x++) {
@@ -108,8 +127,10 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
                     }
                     //console.log(instructors + "LOL");
                 }
+
             }
-            createCourse(courseName, instructors);
+            //console.log(location);
+            createCourse(courseName, instructors, location);
         }
     };
 
@@ -123,12 +144,59 @@ app.controller('CoursesCtrl', function($scope, Course, ngProgress, toaster, $htt
         success(function(data, status, headers, config) {
             $scope.results = [];
             for (i = 0; i < data.length; i++) {
-                if (data[i].name.includes(val)) {
+                if (data[i].name && data[i].name.includes(val)) {
                     $scope.results.push(data[i]);
                 }
             }
         })
     };
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $scope.add_rating = function(rating) {
+        Rating.save(rating, function(rating) {
+            refresh();
+        });
+    };
+
+
+    $scope.update_rating = function(rating) {
+        rating.$update(function() {
+            refresh();
+        });
+    };
+
+    $scope.remove_rating = function(rating) {
+        rating.$delete(function() {
+            refresh();
+        });
+    };
+
+    $scope.edit_rating = function(id) {
+        $scope.rating = Course.get({
+            id: id
+        });
+    };
+
+    // createRating = function(rating_value, userID, courseName) {
+    //     $scope.rating = new Rating();
+    //     $scope.rating.rating_value = req.body.rating_value;
+    //     $scope.course.userID = req.body.userID;
+    //     $scope.course.courseName = req.body.courseName;
+    //     add($scope.rating);
+    // };
+
+
 
 
 })

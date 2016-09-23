@@ -17,10 +17,10 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script>var user = <%- JSON.stringify(user) %>; angular.module('PreloadedData', []) .constant('User', user);</script>
 
-    <div class="header-courserater" style="position:relative;">
+    <div class="header-courserater" ng-controller="CoursesCtrl" style="position:relative;">
       <div id="top-buttons">
       <% if(login){ %>
-      <button onclick="location.href='/profile';" class="button-material"><%= user.local.email %></button>
+      <button onclick="location.href='/profile';" class="button-material">{{user.local.name}}</button>
       <button onclick="location.href='/logout';" class="button-material">Logout</button>
       <% } else{ %>
         <button onclick="location.href='/signup';" class="button-material">Signup</button>
@@ -71,7 +71,6 @@
                   <% if(login){ %>
                   <div class="course-card" style="width: 200px;"><input class="form-control"  ng-model="result.new_rating" required="" placeholder="Update rating"></input></div>
                   <div class="course-card" style="width: 100px;"><button class="btn btn-danger" ng-click="update(course, search_param); course.rating = rating_update(result.new_rating, result.rating, result.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1);" ng-if="result._id" type="submit">Submit</button></div>
-                  <div>{{user.local.email}}</div>
                   <% } else{ %>
                     <div>Login to Rate</div>
                     <% } %>

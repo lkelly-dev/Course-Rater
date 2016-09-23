@@ -14,6 +14,7 @@ var cors = require('cors');
 var app = express(); // define our app using express
 var bodyParser = require('body-parser');
 var Course = require('./models/course');
+var Rating = require('./models/rating');
 
 
 var port = process.env.PORT || 8080;
@@ -104,6 +105,7 @@ router.route('/courses')
         course.instructors = req.body.instructors; // set the courses instructors (comes from the request)
         course.rating = req.body.rating;
         course.numberOfRatings = req.body.numberOfRatings;
+        course.building = req.body.building;
         // save the course and check for errors
         course.save(function(err) {
             if (err)
@@ -139,6 +141,7 @@ router.route('/courses/:course_id')
             course.instructors = req.body.instructors;
             course.rating = req.body.rating;
             course.numberOfRatings = req.body.numberOfRatings;
+            course.building = req.body.building;
 
             // save the course
             course.save(function(err) {
@@ -165,6 +168,101 @@ router.route('/courses/:course_id')
             });
         });
     });
+
+
+
+//SEPARATE
+
+
+    // more routes for our API will happen here
+    // on routes that end in /rating
+    // ----------------------------------------------------
+    router.route('/ratings')
+        // get all the ratings (accessed at GET http://localhost:8080/api/ratings)
+        .get(function(req, res) {
+            Rating.find(function(err, ratings) {
+                if (err)
+                    res.send(err);
+
+                res.json(ratings);
+            });
+        })
+        // create a course (accessed at POST http://localhost:8080/api/ratings)
+        .post(function(req, res) {
+            console.log(mongoose.connection.readyState);
+            var rating = new Rating();
+            rating.rating_value = req.body.rating_value;
+            rating.userID = req.body.userID;
+            rating.courseName = req.body.courseName;
+            // save the course and check for errors
+            rating.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({
+                    message: 'Rating added!'
+                });
+            });
+        });
+    // on routes that end in /courses/:course_id
+    // ----------------------------------------------------
+    router.route('/ratings/:rating_id')
+
+    // get the rating with that id (accessed at GET http://localhost:8080/api/courses/:rating_id)
+    .get(function(req, res) {
+            Rating.findById(req.params.rating_id, function(err, rating) {
+                if (err)
+                    res.send(err);
+                res.json(rating);
+            });
+        })
+        // update the rating with this id (accessed at PUT http://localhost:8080/api/courses/:course_id)
+        .put(function(req, res) {
+
+            // use our course model to find the course we want
+            Rating.findById(req.params.rating_id, function(err, rating) {
+
+                if (err)
+                    res.send(err);
+
+                    rating.rating_value = req.body.rating_value;
+                    rating.userID = req.body.userID;
+                    rating.courseName = req.body.courseName;
+
+                // save the course
+                rating.save(function(err) {
+                    if (err)
+                        res.send(err);
+
+                    res.json({
+                        message: 'Rating updated!'
+                    });
+                });
+
+            });
+        })
+        // delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
+        .delete(function(req, res) {
+            Rating.remove({
+                _id: req.params.rating_id
+            }, function(err, rating) {
+                if (err)
+                    res.send(err);
+
+                res.json({
+                    message: 'Successfully deleted'
+                });
+            });
+        });
+
+
+
+
+//SEPARATE
+
+
+
+
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
 app.use('/api', router);
