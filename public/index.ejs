@@ -70,7 +70,8 @@
                 <div ng-show="isCollapsed" class="card-bottom" >
                   <% if(login){ %>
                   <div class="course-card" style="width: 200px;"><input class="form-control"  ng-model="result.new_rating" required="" placeholder="Update rating"></input></div>
-                  <div class="course-card" style="width: 100px;"><button class="btn btn-danger" ng-click="update(course, search_param); course.rating = rating_update(result.new_rating, result.rating, result.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1);" ng-if="result._id" type="submit">Submit</button></div>
+                  <div class="course-card" style="width: 100px;"><button class="btn btn-danger" ng-click="update(course, search_param);  createRating(result.new_rating, user._id, result._id); course.rating = rating_update(result.new_rating, result.rating, result.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1); getRating();" ng-if="result._id" type="submit">Submit</button></div>
+                  <div class="course-card" style="width: 100px;">{{(allRatings | filter:{courseID:result._id, userID:user._id})}}</div>
                   <% } else{ %>
                     <div>Login to Rate</div>
                     <% } %>

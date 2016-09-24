@@ -5,9 +5,12 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     $scope.results = [];
     $scope.isCollapsed = false;
     $scope.user = window.user;
+    $scope.allRatings = Rating.query();
+
 
     var refresh = function() {
         $scope.courses = Course.query();
+        $scope.ratings = Rating.query();
         $scope.course = "";
     }
     refresh();
@@ -168,6 +171,11 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
             refresh();
         });
     };
+    add_rating = function(rating) {
+        Rating.save(rating, function(rating) {
+            refresh();
+        });
+    };
 
 
     $scope.update_rating = function(rating) {
@@ -188,14 +196,39 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         });
     };
 
-    // createRating = function(rating_value, userID, courseName) {
-    //     $scope.rating = new Rating();
-    //     $scope.rating.rating_value = req.body.rating_value;
-    //     $scope.course.userID = req.body.userID;
-    //     $scope.course.courseName = req.body.courseName;
-    //     add($scope.rating);
-    // };
+    $scope.createRating = function(rating_value, userID, courseID) {
 
+        $scope.rating = new Rating();
+        $scope.rating.rating_value = rating_value;
+        $scope.rating.userID = userID;
+        $scope.rating.courseID = courseID;
+        add_rating($scope.rating);
+    };
+
+    $scope.getRating = function(){
+      $http({
+          method: 'GET',
+          url: 'http://localhost:8080/api/ratings'
+      }).
+      success(function(data, status, headers, config) {
+        console.log(data);
+          $scope.allRatings = data;
+          refresh();
+      })
+    };
+
+    // getRating = function(){
+    //   $http({
+    //       method: 'GET',
+    //       url: 'http://localhost:8080/api/ratings'
+    //   }).
+    //   success(function(data, status, headers, config) {
+    //     console.log(data);
+    //       $scope.allRatings = data;
+    //       refresh();
+    //   })
+    // };
+    // getRating();
 
 
 

@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var RatingSchema = new Schema({
     rating_value: Number,
     userID: String,
-    courseName: String
+    courseID: String
 
 });
 

@@ -193,7 +193,7 @@ router.route('/courses/:course_id')
             var rating = new Rating();
             rating.rating_value = req.body.rating_value;
             rating.userID = req.body.userID;
-            rating.courseName = req.body.courseName;
+            rating.courseID = req.body.courseID;
             // save the course and check for errors
             rating.save(function(err) {
                 if (err)
@@ -227,7 +227,7 @@ router.route('/courses/:course_id')
 
                     rating.rating_value = req.body.rating_value;
                     rating.userID = req.body.userID;
-                    rating.courseName = req.body.courseName;
+                    rating.courseID = req.body.courseID;
 
                 // save the course
                 rating.save(function(err) {
