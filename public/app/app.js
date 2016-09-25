@@ -1,4 +1,4 @@
-var app = angular.module('CourseRater', ['ngResource', 'ngProgress', 'ngAnimate', 'toaster']);
+var app = angular.module('CourseRater', ['ngResource', 'ngProgress', 'ngAnimate', 'toaster', 'ngMap']);
 app.config(function($httpProvider) {
     $httpProvider.interceptors.push('myHttpInterceptor');
 });

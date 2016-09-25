@@ -1,4 +1,4 @@
-app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Building, toaster, $http, $filter) {
+app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Building, toaster, $http, $filter, NgMap) {
 
     $scope.course = new Course();
     $scope.results = [];
@@ -6,6 +6,9 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     $scope.picked_courses = [];
     $scope.building = new Building();
     $scope.allBuildings = Building.query();
+    $scope.courseCount = 0;
+
+
 
 
 
@@ -96,6 +99,38 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
             id: id
         });
     };
+
+
+    NgMap.getMap().then(function(map) {
+    // console.log(map.getCenter());
+    // console.log('markers', map.markers);
+    // console.log('shapes', map.shapes);
+  });
+
+  $scope.Buildingfilter = function(Building_code){
+    return $filter('filter')($scope.allBuildings, {code: Building_code})[0];
+  };
+
+
+  $scope.courseGrabber = function(num) {
+      if($scope.picked_courses.length >= num && num >= 1){
+        var course = $scope.picked_courses[num - 1].building.substring(0, 2);
+        var building1 = $scope.Buildingfilter(course);
+        var blatlng = building1.lat + ", " + building1.long
+
+        return blatlng;
+      }
+      else{
+
+      }
+  };
+
+  $scope.increment = function(){
+    $scope.courseCount += 1;
+  }
+
+
+
 
 
 
