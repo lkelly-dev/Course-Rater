@@ -1,4 +1,4 @@
-app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toaster, $http) {
+app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toaster, $http, $filter) {
 
     $scope.course = new Course();
     $scope.rating = new Rating();
@@ -6,6 +6,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     $scope.isCollapsed = false;
     $scope.user = window.user;
     $scope.allRatings = Rating.query();
+
 
 
     var refresh = function() {
@@ -217,18 +218,31 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
       })
     };
 
-    // getRating = function(){
-    //   $http({
-    //       method: 'GET',
-    //       url: 'http://localhost:8080/api/ratings'
-    //   }).
-    //   success(function(data, status, headers, config) {
-    //     console.log(data);
-    //       $scope.allRatings = data;
-    //       refresh();
-    //   })
-    // };
-    // getRating();
+    $scope.Ratingfilter = function(Course_id, User_id){
+      return $filter('filter')($scope.allRatings, {courseID: Course_id, userID: User_id})[0];
+    };
+
+    $scope.Submit = function(search_param, userID, result){
+        if (isValidRating(result.new_rating) ){
+        $scope.update($scope.course, search_param)
+        $scope.createRating(result.new_rating, userID, result._id);
+        $scope.course.rating = $scope.rating_update(result.new_rating, result.rating, result.numberOfRatings);
+        $scope.course.numberOfRatings += 1;
+        $scope.getRating();
+        refresh();
+      }else{
+        console.log("YOU FUCKED UP");
+      }
+
+
+    };
+
+    function isValidRating(str) {
+    var n = ~~Number(str);
+    return String(n) === str && n >= 0 && n <= 5;
+}
+
+
 
 
 
