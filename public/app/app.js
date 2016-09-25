@@ -61,6 +61,16 @@ app.factory('Rating', function($resource) {
     });
 });
 
+app.factory('Building', function($resource) {
+    return $resource('http://localhost:8080/api/buildings/:id', {
+        id: '@_id'
+    }, {
+        update: { // Defined manually as it is not provided with ng-resource
+            method: 'PUT'
+        }
+    });
+});
+
 
 
 

@@ -10,6 +10,12 @@ module.exports = function(app, passport) {
 
     });
 
+    app.get('/walk', function(req, res) {
+         //res.render('index.ejs');
+         res.render('walk.ejs', { user: req.user });
+
+    });
+
     // =====================================
     // LOGIN ===============================
     // =====================================

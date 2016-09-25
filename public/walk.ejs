@@ -1,0 +1,72 @@
+<!doctype>
+<html ng-app="CourseRater">
+<head>
+    <title>UofT Course Distances</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/ngProgress.css">
+    <link rel="stylesheet" href="css/toaster.css">
+    <link rel="stylesheet" href="css/mycss.css">
+
+    <script src="js/angular.min.js" type="text/javascript"></script>
+    <script src="js/angular-resource.min.js" type="text/javascript"></script>
+    <script src="js/angular-animate.min.js" type="text/javascript"></script>
+    <script src="js/ngProgress.min.js" type="text/javascript"></script>
+    <script src="js/toaster.js" type="text/javascript"></script>
+    <script src="app/app.js" type="text/javascript"></script>
+    <script src="app/distances_client.js" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script>var user = <%- JSON.stringify(user) %>; angular.module('PreloadedData', []) .constant('User', user);</script>
+
+    <div class="header-courserater" ng-controller="DistancesCtrl" style="position:relative;">
+      <div id="top-buttons">
+      <% if(login){ %>
+      <button onclick="location.href='/profile';" class="button-material">{{user.local.name}}</button>
+      <button onclick="location.href='/logout';" class="button-material">Logout</button>
+      <% } else{ %>
+        <button onclick="location.href='/signup';" class="button-material">Signup</button>
+        <button onclick="location.href='/login';" class="button-material">Login</button>
+        <% } %>
+      </div>
+
+        <h1 class="header-title">UofT Course Distances</h1>
+
+    </div>
+</head>
+
+<body class="courserater-body" ng-cloak>
+    <div class="container" ng-controller="DistancesCtrl">
+        <form name="Codenx" novalidate>
+          <div>{{picked_courses}}</div>
+          <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
+              <thead >
+                  <tr class="header-card">
+                      <th style="width:20%; padding-left:30px;">Name</th>
+                      <th style="width:20%">Location</th>
+                      <th style="width:20%">Rating</th>
+                      <th style="width:20%"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr><input class="rater-input" ng-model="search_param" required="" placeholder="Search for a course" search></tr>
+              </tbody>
+          </table>
+
+          <div ng-repeat="result in results" style="margin-bottom: 20px;" class="card">
+              <div ng-click="addCourse(result);"  style="cursor: pointer; padding-bottom:10px;">
+                  <div class="course-card">{{result.name}}</div>
+                  <div class="course-card" >
+                      {{result.building}}
+                  </div>
+                  <div class="course-card">{{result.rating}}</div>
+                </div>
+
+          </div>
+
+
+
+    </div>
+
+    <div data-loading></div>
+    <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
+</body>
+</html>

@@ -15,6 +15,7 @@ var app = express(); // define our app using express
 var bodyParser = require('body-parser');
 var Course = require('./models/course');
 var Rating = require('./models/rating');
+var Building = require('./models/building');
 
 
 var port = process.env.PORT || 8080;
@@ -254,6 +255,101 @@ router.route('/courses/:course_id')
                 });
             });
         });
+
+
+
+
+//SEPARATE
+
+
+
+// more routes for our API will happen here
+// on routes that end in /rating
+// ----------------------------------------------------
+router.route('/buildings')
+    // get all the ratings (accessed at GET http://localhost:8080/api/ratings)
+    .get(function(req, res) {
+        Building.find(function(err, buildings) {
+            if (err)
+                res.send(err);
+
+            res.json(buildings);
+        });
+    })
+    // create a course (accessed at POST http://localhost:8080/api/ratings)
+    .post(function(req, res) {
+        console.log(mongoose.connection.readyState);
+        var building = new Building();
+        building.name = req.body.name;
+        building.code = req.body.code;
+        building.lat = req.body.lat;
+        building.long = req.body.long;
+        // save the course and check for errors
+        building.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({
+                message: 'Building added!'
+            });
+        });
+    });
+// on routes that end in /courses/:course_id
+// ----------------------------------------------------
+router.route('/buildings/:building_id')
+
+// get the rating with that id (accessed at GET http://localhost:8080/api/courses/:rating_id)
+.get(function(req, res) {
+        Building.findById(req.params.building_id, function(err, building) {
+            if (err)
+                res.send(err);
+            res.json(building);
+        });
+    })
+    // update the rating with this id (accessed at PUT http://localhost:8080/api/courses/:course_id)
+    .put(function(req, res) {
+
+        // use our course model to find the course we want
+        Building.findById(req.params.building_id, function(err, building) {
+
+            if (err)
+                res.send(err);
+
+                building.name = req.body.name;
+                building.code = req.body.code;
+                building.lat = req.body.lat;
+                building.long = req.body.long;
+
+            // save the course
+            building.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({
+                    message: 'Building updated!'
+                });
+            });
+
+        });
+    })
+    // delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
+    .delete(function(req, res) {
+        Building.remove({
+            _id: req.params.building_id
+        }, function(err, building) {
+            if (err)
+                res.send(err);
+
+            res.json({
+                message: 'Successfully deleted'
+            });
+        });
+    });
+
+
+
+
+
 
 
 
