@@ -121,6 +121,7 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
         return blatlng;
       }
       else{
+        
 
       }
   };

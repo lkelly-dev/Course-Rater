@@ -159,14 +159,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
 
 
 
-
-
-
-
-
-
-
-
     $scope.add_rating = function(rating) {
         Rating.save(rating, function(rating) {
             refresh();
@@ -231,7 +223,8 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         $scope.getRating();
         refresh();
       }else{
-        console.log("YOU FUCKED UP");
+        alert("ERROR: Invalid rating. Please try again.");
+
       }
 
 
