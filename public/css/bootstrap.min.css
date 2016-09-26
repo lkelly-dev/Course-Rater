@@ -727,7 +727,8 @@ pre code {
 
 @media (min-width:1200px) {
     .container {
-        width: 1170px
+        /*width: 1170px*/
+        width: 60%;
     }
 }
 
@@ -737,6 +738,36 @@ pre code {
     padding-left: 15px;
     padding-right: 15px
 }
+
+
+
+.container-walk {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px
+}
+
+@media (min-width:768px) {
+    .container-walk {
+        width: 750px
+    }
+}
+
+@media (min-width:992px) {
+    .container-walk {
+        width: 970px
+    }
+}
+
+@media (min-width:1200px) {
+    .container-walk {
+        /*width: 1170px*/
+        width: auto;
+    }
+}
+
+
 
 .row {
     margin-left: -15px;

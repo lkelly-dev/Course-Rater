@@ -80,16 +80,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         return xmlHttp.responseText;
     };
 
-    createCourse = function(name, instructors, location) {
-        $scope.course = new Course();
-        $scope.course.name = name;
-        $scope.course.instructors = instructors;
-        $scope.course.rating = 0;
-        $scope.course.numberOfRatings = 0;
-        $scope.course.building = location;
-        console.log(location);
-        add($scope.course);
-    };
 
     readJson = function(file) {
     var request = new XMLHttpRequest();
@@ -99,43 +89,48 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         return request.responseText;
 };
 
+    createCourse = function(name, instructors, sections) {
+        $scope.course = new Course();
+        $scope.course.name = name;
+        $scope.course.instructors = instructors;
+        $scope.course.rating = 0;
+        $scope.course.numberOfRatings = 0;
+        $scope.course.sections = sections;
+        //console.log(location);
+        add($scope.course);
+    };
+
+
+
     populate_server = function() {
-        //var urlString = "http://crossorigin.me/https://cobalt.qas.im/api/1.0/courses?limit=50&skip=450&key=456y8hDcetwgug1EGcDxM9XHcrAx84P8";
 
-        //var jsonData = httpGet(urlString);
-        //var arr_from_json = JSON.parse(jsonData);
-        var jsonData = httpGet("https://api.myjson.com/bins/2p48o");
-        var arr_from_json = JSON.parse(jsonData);
+        var jsonData = httpGet("https://raw.githubusercontent.com/cobalt-uoft/datasets/master/courses.json");
+        var lines = jsonData.split('\n');
 
-        console.log(arr_from_json);
-        for (i = 0; i < arr_from_json.length; i++) {
-            var courseName = arr_from_json[i].code
-                //console.log(courseName);
-                //console.log(instructors);
-            var instructors = [];
-            var location = "";
-            var classMeetings = arr_from_json[i].meeting_sections;
+        //lines.length - 1
 
-            if(classMeetings[0] && classMeetings[0].times[0]){
-              location = classMeetings[0].times[0].location;
-            }
+          for(x = 3709; x < 3770; x++){
+            //console.log("WTF");
+              var course = JSON.parse(lines[x]);
+              //console.log(course);
+              var courseName = course.code;
+              var courseSections = course.meeting_sections;
+              var instructors = [];
 
-            for (j = 0; j < classMeetings.length; j++) {
-                var meetingTimes = classMeetings[j];
-                for (x = 0; x < meetingTimes.instructors.length; x++) {
-                    //console.log(meetingTimes.instructors[x]);
-                    if (instructors.indexOf(meetingTimes.instructors[x]) > -1) {
-                          //In the array!
-                      } else {
-                          instructors.push(meetingTimes.instructors[x]);
-                    }
-                    //console.log(instructors + "LOL");
+              for (i = 0; i<courseSections.length; i++){
+                //console.log(courseSections[i]);
+                for(j=0; j<courseSections[i].instructors.length; j++){
+                  if (instructors.indexOf(courseSections[i].instructors[j]) > -1) {
+                        //In the array!
+                    } else {
+                        instructors.push(courseSections[i].instructors[j]);
+                  }
                 }
 
-            }
-            //console.log(location);
-            createCourse(courseName, instructors, location);
-        }
+              }
+              //console.log(courseName);
+              createCourse(courseName, instructors, courseSections);
+          }
     };
 
 

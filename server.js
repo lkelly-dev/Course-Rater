@@ -106,7 +106,7 @@ router.route('/courses')
         course.instructors = req.body.instructors; // set the courses instructors (comes from the request)
         course.rating = req.body.rating;
         course.numberOfRatings = req.body.numberOfRatings;
-        course.building = req.body.building;
+        course.sections = req.body.sections;
         // save the course and check for errors
         course.save(function(err) {
             if (err)
@@ -142,7 +142,7 @@ router.route('/courses/:course_id')
             course.instructors = req.body.instructors;
             course.rating = req.body.rating;
             course.numberOfRatings = req.body.numberOfRatings;
-            course.building = req.body.building;
+            course.sections = req.body.sections;
 
             // save the course
             course.save(function(err) {

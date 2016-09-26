@@ -4,7 +4,7 @@
     line-height: 150px;
     margin-top: 0px;
     margin-bottom: -10px;
-    font-size: 48px;
+    font-size: 48px !important;
     text-align: center;
 }
 
@@ -142,4 +142,53 @@
 
 .courserater-body {
     background: #d5d5d5;
+}
+
+
+
+.course-scroller{
+
+margin-right: 2%;
+
+}
+
+
+.course-map{
+
+  margin-left: 2%;
+}
+
+@media (min-width:768px) {
+    .course-scroller {
+
+    }
+    .course-map {
+      padding-top: 20px;
+      height: 50%
+
+    }
+}
+
+@media (min-width:992px) {
+  .course-scroller {
+
+  }
+  .course-map {
+
+  }
+}
+
+@media (min-width:1200px) {
+  .course-scroller {
+    width: 30%;
+    display: inline-block;
+  }
+  .course-map {
+    padding-top: 0px;
+    height:40%;
+    width: 60%;
+    vertical-align:top;
+    display: inline-block;
+
+  }
 }

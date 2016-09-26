@@ -42,16 +42,16 @@
 </head>
 
 <body class="courserater-body" ng-cloak>
-    <div class="container" ng-controller="DistancesCtrl" style="text-align: center; margin-bottom: 5%;">
+    <div class="container-walk" ng-controller="DistancesCtrl" style="text-align: center; margin-bottom: 5%;">
         <form name="Codenx" novalidate>
             <div>{{picked_courses}}</div>
-            <div style="width: 50%; display: inline-block; margin-right: 2%;">
+            <div class="course-scroller">
             <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
                 <thead>
                     <tr class="header-card">
-                        <th style="text-align: right;">Name</th>
+                        <th style="text-align: center;">Name</th>
                         <th style="text-align: center; width: 25%">Location</th>
-                        <th style="text-align: left;">Rating</th>
+                        <th style="text-align: center;">Rating</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,18 +60,25 @@
             </table>
             <div style="overflow-y: auto; height: 50%;">
             <div ng-repeat="result in results" style="margin-bottom: 20px;" class="card">
-                <div ng-click="addCourse(result); increment();" style="cursor: pointer; padding-bottom:10px;">
-                    <div class="course-card">{{result.name}}</div>
-                    <div class="course-card">
+                <div ng-click="isCollapsed = !isCollapsed;" style="cursor: pointer; padding-bottom:10px;">
+                    <div style="width: 33%;" class="course-card">{{result.name}}</div>
+                    <div style="width: 33%;" class="course-card">
                         {{result.building}}
                     </div>
                     <div class="course-card">{{result.rating}}</div>
+                </div>
+                <div ng-show="isCollapsed" class="card-bottom" style="overflow-y: auto; max-height: 20%;"">
+                    <!-- <div addCourse(result); increment();>Login to Rate</div> -->
+                    <div ng-repeat="section in result.sections" ng-click = "addCourse(section); increment();">
+                      <div style="display: inline;">{{section.code}} is at </div>
+                      <div style="display: inline;">{{section.times[0].location}}</div>
+                    </div>
                 </div>
             </div>
           </div>
         </div>
 
-          <div  style="height:40%; width: 40%; vertical-align:top; display: inline-block; margin-left: 2%;">
+          <div  class="course-map">
               <ng-map zoom="15" center="43.6629, -79.3957" style="height:100%; width:100%; float:left;" on-click="logLatLng()">
                   <directions
                   draggable="true"

@@ -7,6 +7,7 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     $scope.building = new Building();
     $scope.allBuildings = Building.query();
     $scope.courseCount = 0;
+    $scope.isCollapsed = false;
 
 
 
@@ -114,14 +115,22 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
 
   $scope.courseGrabber = function(num) {
       if($scope.picked_courses.length >= num && num >= 1){
-        var course = $scope.picked_courses[num - 1].building.substring(0, 2);
-        var building1 = $scope.Buildingfilter(course);
-        var blatlng = building1.lat + ", " + building1.long
+        //var course = $scope.picked_courses[num - 1].building.substring(0, 2);
+        try {
+          var course = $scope.picked_courses[num - 1].times[0].location.substring(0, 2);
+          var building1 = $scope.Buildingfilter(course);
 
-        return blatlng;
+          var blatlng = building1.lat + ", " + building1.long
+
+          return blatlng;
+            }
+            catch(err) {
+              console.log("OOPS");
+              return undefined;
+            }
       }
       else{
-        
+
 
       }
   };
