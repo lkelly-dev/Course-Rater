@@ -44,7 +44,11 @@
 <body class="courserater-body" ng-cloak>
     <div class="container-walk" ng-controller="DistancesCtrl" style="text-align: center; margin-bottom: 5%;">
         <form name="Codenx" novalidate>
-            <div>{{picked_courses}}</div>
+            <div ng-repeat="pick in picked_courses" ng-click="removeCourse(pick)">
+              <p style="display: inline">{{pick.name}}</p>
+              <p style="display: inline">{{pick.code}}</p>
+            </div>
+
             <div class="course-scroller">
             <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
                 <thead>
@@ -67,12 +71,12 @@
                     </div>
                     <div class="course-card">{{result.rating}}</div>
                 </div>
-                <div ng-show="isCollapsed" class="card-bottom" style="overflow-y: auto; max-height: 20%;"">
+                <div ng-show="isCollapsed" class="card-bottom" style="overflow-y: auto; max-height: 20%;">
                     <!-- <div addCourse(result); increment();>Login to Rate</div> -->
-                    <div ng-repeat="section in result.sections" ng-click = "addCourse(section); increment();">
+                    <button ng-repeat="section in result.sections" ng-if="isLocationValid(section)" ng-click = "addCourse(result, section);">
                       <div style="display: inline;">{{section.code}} is at </div>
                       <div style="display: inline;">{{section.times[0].location}}</div>
-                    </div>
+                    </button>
                 </div>
             </div>
           </div>
@@ -84,8 +88,8 @@
                   draggable="true"
                   panel="directions-panel"
                   travel-mode="WALKING"
-                  origin="{{courseGrabber(courseCount - 1)}}"
-                  destination="{{courseGrabber(courseCount)}}">
+                  origin="{{courseGrabber(picked_courses.length - 2)}}"
+                  destination="{{courseGrabber(picked_courses.length - 1)}}">
                   </directions>
               </ng-map>
               <div id="directions-panel" style="float:left; float:left; height: 100%; overflow: auto; padding: 0px 5px"></div>

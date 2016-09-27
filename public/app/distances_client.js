@@ -6,12 +6,9 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     $scope.picked_courses = [];
     $scope.building = new Building();
     $scope.allBuildings = Building.query();
+    $scope.allCourses = Course.query();
     $scope.courseCount = 0;
     $scope.isCollapsed = false;
-
-
-
-
 
 
     var refresh = function() {
@@ -22,9 +19,11 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
 
 
 
-    $scope.addCourse = function(picked){
-      if($scope.picked_courses.indexOf(picked) == -1){
-        $scope.picked_courses.push(picked);
+    $scope.addCourse = function(course, section){
+      section.name = course.name;
+      if($scope.picked_courses.indexOf(section) == -1){
+        $scope.picked_courses.push(section);
+        $scope.courseCount += 1;
       }
     };
 
@@ -42,6 +41,16 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
             }
         })
     };
+
+    // $scope.search = function(val) {
+    //         $scope.results = [];
+    //         //console.log($scope.allCourses);
+    //         for (i = 0; i < $scope.allCourses.length; i++) {
+    //             if ($scope.allCourses[i].name && $scope.allCourses[i].name.includes(val)) {
+    //                 $scope.results.push($scope.allCourses[i]);
+    //               }
+    //     }
+    // };
 
     httpGet = function(theUrl) {
         var xmlHttp = new XMLHttpRequest();
@@ -114,10 +123,10 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
 
 
   $scope.courseGrabber = function(num) {
-      if($scope.picked_courses.length >= num && num >= 1){
+      if(num >= 0){
         //var course = $scope.picked_courses[num - 1].building.substring(0, 2);
         try {
-          var course = $scope.picked_courses[num - 1].times[0].location.substring(0, 2);
+          var course = $scope.picked_courses[num ].times[0].location.substring(0, 2);
           var building1 = $scope.Buildingfilter(course);
 
           var blatlng = building1.lat + ", " + building1.long
@@ -125,7 +134,7 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
           return blatlng;
             }
             catch(err) {
-              console.log("OOPS");
+              //console.log("OOPS");
               return undefined;
             }
       }
@@ -135,8 +144,19 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
       }
   };
 
-  $scope.increment = function(){
-    $scope.courseCount += 1;
+  $scope.isLocationValid = function(section){
+    if(!section.times[0]){
+      return false;
+    }else if (section.times[0].location.substring(0, 2) == "ZZ") {
+      return false;
+    }
+    return true;
+  }
+
+  $scope.removeCourse = function(pick){
+    var index = $scope.picked_courses.indexOf(pick);
+    $scope.picked_courses.splice(index, 1);
+    //console.log("hello");
   }
 
 
