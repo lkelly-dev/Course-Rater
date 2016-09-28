@@ -1,20 +1,27 @@
 .header-title {
     color: #ffffff;
     text-align: center;
-    line-height: 150px;
+    line-height: 100px;
     margin-top: 0px;
     margin-bottom: -10px;
     font-size: 48px !important;
     text-align: center;
+    font-weight: 400;
 }
 
 .header-courserater {
     background-color: #002f65;
     /*height: 125px;*/
-    height: 150px;
+    height: 100px;
     margin-bottom: 15px;
     text-align: center;
     box-shadow: 0 2px 4px #aaa;
+}
+/*.adp-summary{
+  font-size: 20px;
+}*/
+.adp-warnbox{
+  display: none;
 }
 
 .button-material {
@@ -135,6 +142,17 @@
 }
 
 
+.footer{
+  width: 100%;
+  position:fixed;
+    bottom:0px;
+  height:50px;
+  color: ##292929;
+  background-color: #8c8c8c;
+
+}
+
+
 /*.card2:hover {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2) !important;
     background: white;
@@ -167,6 +185,9 @@ margin-right: 2%;
       height: 50%
 
     }
+    .courses-picked{
+      vertical-align:top;
+    }
 }
 
 @media (min-width:992px) {
@@ -186,9 +207,14 @@ margin-right: 2%;
   .course-map {
     padding-top: 0px;
     height:40%;
-    width: 60%;
+    width: 45%;
     vertical-align:top;
     display: inline-block;
 
+  }
+  .courses-picked{
+    vertical-align:top;
+    width:15%;
+    display: inline-block;
   }
 }

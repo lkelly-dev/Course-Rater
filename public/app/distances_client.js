@@ -1,14 +1,15 @@
 app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Building, toaster, $http, $filter, NgMap) {
 
     $scope.course = new Course();
-    $scope.results = [];
-    $scope.user = window.user;
-    $scope.picked_courses = [];
     $scope.building = new Building();
     $scope.allBuildings = Building.query();
     $scope.allCourses = Course.query();
-    $scope.courseCount = 0;
+    $scope.user = window.user;
+    $scope.results = [];
+    $scope.picked_courses = [];
+    $scope.distances = [];
     $scope.isCollapsed = false;
+
 
 
     var refresh = function() {
@@ -23,7 +24,6 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
       section.name = course.name;
       if($scope.picked_courses.indexOf(section) == -1){
         $scope.picked_courses.push(section);
-        $scope.courseCount += 1;
       }
     };
 
@@ -37,6 +37,9 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
             for (i = 0; i < data.length; i++) {
                 if (data[i].name && data[i].name.includes(val)) {
                     $scope.results.push(data[i]);
+                }
+                if($scope.results.length == 15){
+                  break;
                 }
             }
         })
@@ -128,9 +131,7 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
         try {
           var course = $scope.picked_courses[num ].times[0].location.substring(0, 2);
           var building1 = $scope.Buildingfilter(course);
-
           var blatlng = building1.lat + ", " + building1.long
-
           return blatlng;
             }
             catch(err) {
@@ -151,21 +152,25 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
       return false;
     }
     return true;
-  }
+  };
 
   $scope.removeCourse = function(pick){
     var index = $scope.picked_courses.indexOf(pick);
     $scope.picked_courses.splice(index, 1);
     //console.log("hello");
-  }
+  };
 
-
-
-
-
-
-
-
+  $scope.addDistance = function(val){
+    console.log(val);
+    if($scope.picked_courses.length > 1 && val){
+      $scope.distances.push(val);
+    }
+// if(!$scope.distances[index] && $scope.picked_courses.length > 1 && val){
+//       console.log(index);
+//       console.log(val)
+//       $scope.distances[index] = val;
+//     }
+  };
 
 
 

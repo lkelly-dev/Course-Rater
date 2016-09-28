@@ -44,61 +44,76 @@
 <body class="courserater-body" ng-cloak>
     <div class="container-walk" ng-controller="DistancesCtrl" style="text-align: center; margin-bottom: 5%;">
         <form name="Codenx" novalidate>
-            <div ng-repeat="pick in picked_courses" ng-click="removeCourse(pick)">
-              <p style="display: inline">{{pick.name}}</p>
-              <p style="display: inline">{{pick.code}}</p>
-            </div>
+
 
             <div class="course-scroller">
-            <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
-                <thead>
-                    <tr class="header-card">
-                        <th style="text-align: center;">Name</th>
-                        <th style="text-align: center; width: 25%">Location</th>
-                        <th style="text-align: center;">Rating</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><input class="rater-input" ng-model="search_param" required="" placeholder="Search for a course" search></tr>
-                </tbody>
-            </table>
-            <div style="overflow-y: auto; height: 50%;">
-            <div ng-repeat="result in results" style="margin-bottom: 20px;" class="card">
-                <div ng-click="isCollapsed = !isCollapsed;" style="cursor: pointer; padding-bottom:10px;">
-                    <div style="width: 33%;" class="course-card">{{result.name}}</div>
-                    <div style="width: 33%;" class="course-card">
-                        {{result.building}}
-                    </div>
-                    <div class="course-card">{{result.rating}}</div>
-                </div>
-                <div ng-show="isCollapsed" class="card-bottom" style="overflow-y: auto; max-height: 20%;">
-                    <!-- <div addCourse(result); increment();>Login to Rate</div> -->
-                    <button ng-repeat="section in result.sections" ng-if="isLocationValid(section)" ng-click = "addCourse(result, section);">
+                <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
+                    <thead>
+                        <tr class="header-card">
+                            <th style="text-align: center;">Name</th>
+                            <th style="text-align: center; width: 25%">Location</th>
+                            <th style="text-align: center;">Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><input class="rater-input" ng-model="search_param" required="" placeholder="Search for a course" search></tr>
+                    </tbody>
+                </table>
+                <div style="overflow-y: auto; height: 50%;">
+                    <div ng-repeat="result in results" style="margin-bottom: 20px;" class="card">
+                        <div ng-click="isCollapsed = !isCollapsed;" style="cursor: pointer; padding-bottom:10px;">
+                            <div style="width: 33%;" class="course-card">{{result.name}}</div>
+                            <div style="width: 33%;" class="course-card">
+                                {{result.building}}
+                            </div>
+                            <div class="course-card">{{result.rating}}</div>
+                        </div>
+                        <div ng-show="isCollapsed" class="card-bottom" style="overflow-y: auto; max-height: 20%;">
+                            <!-- <div addCourse(result); increment();>Login to Rate</div> -->
+                      <button ng-repeat="section in result.sections" ng-if="isLocationValid(section)" ng-click="addCourse(result, section); addDistance(map.directionsRenderers[0].directions.routes[0].legs[0].duration.text, $index)">
                       <div style="display: inline;">{{section.code}} is at </div>
                       <div style="display: inline;">{{section.times[0].location}}</div>
+
                     </button>
+                        </div>
+                    </div>
                 </div>
             </div>
-          </div>
-        </div>
 
-          <div  class="course-map">
-              <ng-map zoom="15" center="43.6629, -79.3957" style="height:100%; width:100%; float:left;" on-click="logLatLng()">
-                  <directions
-                  draggable="true"
-                  panel="directions-panel"
-                  travel-mode="WALKING"
-                  origin="{{courseGrabber(picked_courses.length - 2)}}"
-                  destination="{{courseGrabber(picked_courses.length - 1)}}">
-                  </directions>
-              </ng-map>
-              <div id="directions-panel" style="float:left; float:left; height: 100%; overflow: auto; padding: 0px 5px"></div>
-          </div>
+            <div class="courses-picked">
+                <h3>My Courses</h3>
+                <div ng-repeat-start="pick in picked_courses" ng-click="distances[$index - 1] = '???'; removeCourse(pick); " style="cursor: pointer;" class="card">
+
+                    <p style="display: inline">{{pick.name}}</p>
+                    <p style="display: inline">{{pick.code}}</p>
+
+                </div>
+                <div ng-repeat-end ng-if="!$last">
+                  <!-- {{map.directionsRenderers[0].directions.routes[0].legs[0].duration.text}} -->
+                  {{distances[$index]}}
+                  <!-- addDistance(map.directionsRenderers[0].directions.routes[0].legs[0].duration.text, $index) -->
+
+
+                </div>
+            </div>
+
+            <div class="course-map">
+                <ng-map zoom="15" center="43.6629, -79.3957" style="height:100%; width:100%; float:left;" on-click="logLatLng()">
+                    <directions ng-if="picked_courses.length >=2" raggable="true" panel="directions-panel" travel-mode="WALKING" origin="{{courseGrabber(picked_courses.length - 2)}}" destination="{{courseGrabber(picked_courses.length - 1)}}">
+                    </directions>
+                </ng-map>
+                <div id="directions-panel" style="float:left; float:left; height: 100%; overflow: auto; padding: 0px 5px"></div>
+            </div>
 
     </div>
 
     <div data-loading></div>
     <toaster-container toaster-options="{'time-out': 3000, 'close-button':true, 'animation-class': 'toast-top-center'}"></toaster-container>
 </body>
+<footer class="footer">
+    <div style="display:flex;justify-content:center;align-items:center;height:50px;">
+        <h4 style="font-weight: 400">Developed by Liam Kelly - Copyright 2016</h4>
+    </div>
+</footer>
 
 </html>
