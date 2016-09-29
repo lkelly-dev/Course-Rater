@@ -11,7 +11,6 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     $scope.isCollapsed = false;
 
 
-
     var refresh = function() {
         $scope.courses = Course.query();
         $scope.course = "";
@@ -19,10 +18,13 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     refresh();
 
 
-
     $scope.addCourse = function(course, section){
-      section.name = course.name;
       if($scope.picked_courses.indexOf(section) == -1){
+        section.name = course.name;
+        var temp_loc = $scope.Buildingfilter(section.times[0].location.substring(0, 2));
+        var blatlng = temp_loc.lat + ", " + temp_loc.long;
+        section.location = blatlng;
+
         $scope.picked_courses.push(section);
       }
     };
@@ -160,20 +162,34 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     //console.log("hello");
   };
 
-  $scope.addDistance = function(val){
-    console.log(val);
-    if($scope.picked_courses.length > 1 && val){
-      $scope.distances.push(val);
+  $scope.populateDistances = function(){
+    $scope.distances.length = 0;
+    if($scope.picked_courses.length > 1){
+    for(i=1; i<$scope.picked_courses.length; i++){
+      var first = $scope.picked_courses[i-1].location;
+      var second = $scope.picked_courses[i].location;
+      $scope.distanceBetweenTwoPoints(first, second, i-1);
     }
-// if(!$scope.distances[index] && $scope.picked_courses.length > 1 && val){
-//       console.log(index);
-//       console.log(val)
-//       $scope.distances[index] = val;
-//     }
+  }
+};
+
+  $scope.distanceBetweenTwoPoints = function(pOne, pTwo, num){
+
+    if(pOne && pTwo){
+    var service = new google.maps.DistanceMatrixService();
+    service.getDistanceMatrix({
+      origins: [pOne],
+      destinations: [pTwo],
+      travelMode: google.maps.TravelMode.WALKING
+    }, function (response, status) {
+
+      if (status == google.maps.DistanceMatrixStatus.OK) {
+        console.log(response.rows[0].elements[0].duration.text);
+        $scope.distances[num] = response.rows[0].elements[0].duration.text;
+      }
+
+    });
+    }
   };
-
-
-
-
 
 })

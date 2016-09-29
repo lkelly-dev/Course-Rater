@@ -51,6 +51,7 @@ app.factory('Course', function($resource) {
 });
 
 
+
 app.factory('Rating', function($resource) {
     return $resource('http://localhost:8080/api/ratings/:id', {
         id: '@_id'

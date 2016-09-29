@@ -1,4 +1,4 @@
-app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toaster, $http, $filter) {
+app.controller('CoursesCtrl', function($scope, Course, Rating, Fuck, ngProgress, toaster, $http, $filter) {
 
     $scope.course = new Course();
     $scope.rating = new Rating();
@@ -56,10 +56,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         $scope.course = "";
     };
 
-    $scope.rating_update = function(new_rating, rating, numberOfRatings) {
-        var new_rating = ((new_rating - 0) + (rating - 0) * (numberOfRatings - 0)) / (numberOfRatings + 1);
-        return Math.round(new_rating * 100) / 100;
-    };
+
 
     // $scope.fix_array = function(instructors) {
     //     var partsOfStr = instructors.split(',');
@@ -81,13 +78,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     };
 
 
-    readJson = function(file) {
-    var request = new XMLHttpRequest();
-    request.open('GET', file, false);
-    request.send(null);
-    if (request.status == 200)
-        return request.responseText;
-};
 
     createCourse = function(name, instructors, sections) {
         $scope.course = new Course();
@@ -145,6 +135,9 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
             for (i = 0; i < data.length; i++) {
                 if (data[i].name && data[i].name.includes(val)) {
                     $scope.results.push(data[i]);
+                }
+                if($scope.results.length == 15){
+                  break;
                 }
             }
         })
@@ -206,7 +199,10 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     };
 
     $scope.Ratingfilter = function(Course_id, User_id){
-      return $filter('filter')($scope.allRatings, {courseID: Course_id, userID: User_id})[0];
+        if(User_id){
+          return $filter('filter')($scope.allRatings, {courseID: Course_id, userID: User_id})[0];
+        }
+        return $filter('filter')($scope.allRatings, {courseID: Course_id});
     };
 
     $scope.Submit = function(search_param, userID, result){
