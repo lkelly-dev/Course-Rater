@@ -347,13 +347,6 @@ router.route('/buildings/:building_id')
     });
 
 
-
-
-
-
-
-
-
 //SEPARATE
 
 

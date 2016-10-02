@@ -1,4 +1,4 @@
-app.controller('CoursesCtrl', function($scope, Course, Rating, Fuck, ngProgress, toaster, $http, $filter) {
+app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toaster, $http, $filter) {
 
     $scope.course = new Course();
     $scope.rating = new Rating();
@@ -200,32 +200,42 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, Fuck, ngProgress,
 
     $scope.Ratingfilter = function(Course_id, User_id){
         if(User_id){
-          return $filter('filter')($scope.allRatings, {courseID: Course_id, userID: User_id})[0];
+          return $filter('filter')($scope.allRatings, {courseID: Course_id, userID: User_id});
         }
         return $filter('filter')($scope.allRatings, {courseID: Course_id});
     };
 
     $scope.Submit = function(search_param, userID, result){
-        if (isValidRating(result.new_rating) ){
+        if (isValidRating(result.new_rating) && $scope.Ratingfilter(result._id).length == 0){
         $scope.update($scope.course, search_param)
         $scope.createRating(result.new_rating, userID, result._id);
-        $scope.course.rating = $scope.rating_update(result.new_rating, result.rating, result.numberOfRatings);
-        $scope.course.numberOfRatings += 1;
+        //$scope.course.rating = $scope.rating_update(result.new_rating, result.rating, result.numberOfRatings);
+        //$scope.course.numberOfRatings += 1;
         $scope.getRating();
         refresh();
       }else{
         alert("ERROR: Invalid rating. Please try again.");
-
       }
-
-
     };
 
     function isValidRating(str) {
     var n = ~~Number(str);
     return String(n) === str && n >= 0 && n <= 5;
-}
+};
 
+
+$scope.AverageRating = function(result){
+  var fuck = $scope.Ratingfilter(result._id, $scope.user._id);
+  var total = 0;
+  if(fuck.length > 0){
+  for(var i = 0; i < fuck.length; i++) {
+    total += fuck[i].rating_value;
+  }
+  var avg = total / fuck.length;
+  return avg;
+}
+else{return 0;}
+};
 
 
 
