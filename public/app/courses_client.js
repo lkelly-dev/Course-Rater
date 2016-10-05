@@ -25,7 +25,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
 
     $scope.update = function(course, search_param) {
         course.$update(function() {
-          $scope.search(search_param);
+            $scope.search(search_param);
             refresh();
         });
     };
@@ -43,13 +43,11 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     };
 
     $scope.rate = function(id) {
-      if($scope.course._id == id){
-      }
-      else{
-        $scope.course = Course.get({
-            id: id
-        });
-      }
+        if ($scope.course._id == id) {} else {
+            $scope.course = Course.get({
+                id: id
+            });
+        }
     };
 
     $scope.deselect = function() {
@@ -99,28 +97,28 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
 
         //lines.length - 1
 
-          for(x = 3709; x < 3770; x++){
+        for (x = 3709; x < 3770; x++) {
             //console.log("WTF");
-              var course = JSON.parse(lines[x]);
-              //console.log(course);
-              var courseName = course.code;
-              var courseSections = course.meeting_sections;
-              var instructors = [];
+            var course = JSON.parse(lines[x]);
+            //console.log(course);
+            var courseName = course.code;
+            var courseSections = course.meeting_sections;
+            var instructors = [];
 
-              for (i = 0; i<courseSections.length; i++){
+            for (i = 0; i < courseSections.length; i++) {
                 //console.log(courseSections[i]);
-                for(j=0; j<courseSections[i].instructors.length; j++){
-                  if (instructors.indexOf(courseSections[i].instructors[j]) > -1) {
+                for (j = 0; j < courseSections[i].instructors.length; j++) {
+                    if (instructors.indexOf(courseSections[i].instructors[j]) > -1) {
                         //In the array!
                     } else {
                         instructors.push(courseSections[i].instructors[j]);
-                  }
+                    }
                 }
 
-              }
-              //console.log(courseName);
-              createCourse(courseName, instructors, courseSections);
-          }
+            }
+            //console.log(courseName);
+            createCourse(courseName, instructors, courseSections);
+        }
     };
 
 
@@ -136,16 +134,12 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
                 if (data[i].name && data[i].name.includes(val)) {
                     $scope.results.push(data[i]);
                 }
-                if($scope.results.length == 15){
-                  break;
+                if ($scope.results.length == 15) {
+                    break;
                 }
             }
         })
     };
-
-
-
-
 
     $scope.add_rating = function(rating) {
         Rating.save(rating, function(rating) {
@@ -186,58 +180,61 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         add_rating($scope.rating);
     };
 
-    $scope.getRating = function(){
-      $http({
-          method: 'GET',
-          url: 'http://localhost:8080/api/ratings'
-      }).
-      success(function(data, status, headers, config) {
-        console.log(data);
-          $scope.allRatings = data;
-          refresh();
-      })
+    $scope.getRating = function() {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/api/ratings'
+        }).
+        success(function(data, status, headers, config) {
+            //console.log(data);
+            $scope.allRatings = data;
+            refresh();
+        })
     };
 
-    $scope.Ratingfilter = function(Course_id, User_id){
-        if(User_id){
-          return $filter('filter')($scope.allRatings, {courseID: Course_id, userID: User_id});
+    $scope.Ratingfilter = function(Course_id, User_id) {
+        if (User_id) {
+            return $filter('filter')($scope.allRatings, {
+                courseID: Course_id,
+                userID: User_id
+            });
         }
-        return $filter('filter')($scope.allRatings, {courseID: Course_id});
+        return $filter('filter')($scope.allRatings, {
+            courseID: Course_id
+        });
     };
 
-    $scope.Submit = function(search_param, userID, result){
-        if (isValidRating(result.new_rating) && $scope.Ratingfilter(result._id).length == 0){
-        $scope.update($scope.course, search_param)
-        $scope.createRating(result.new_rating, userID, result._id);
-        //$scope.course.rating = $scope.rating_update(result.new_rating, result.rating, result.numberOfRatings);
-        //$scope.course.numberOfRatings += 1;
-        $scope.getRating();
-        refresh();
-      }else{
-        alert("ERROR: Invalid rating. Please try again.");
-      }
+    $scope.Submit = function(search_param, userID, result) {
+        if (isValidRating(result.new_rating) && $scope.Ratingfilter(result._id).length == 0) {
+            $scope.update($scope.course, search_param)
+            $scope.createRating(result.new_rating, userID, result._id);
+            //$scope.course.rating = $scope.rating_update(result.new_rating, result.rating, result.numberOfRatings);
+            //$scope.course.numberOfRatings += 1;
+            $scope.getRating();
+            refresh();
+        } else {
+            alert("ERROR: Invalid rating. Please try again.");
+        }
     };
 
     function isValidRating(str) {
-    var n = ~~Number(str);
-    return String(n) === str && n >= 0 && n <= 5;
-};
+        var n = ~~Number(str);
+        return String(n) === str && n >= 0 && n <= 5;
+    };
 
-
-$scope.AverageRating = function(result){
-  var fuck = $scope.Ratingfilter(result._id, $scope.user._id);
-  var total = 0;
-  if(fuck.length > 0){
-  for(var i = 0; i < fuck.length; i++) {
-    total += fuck[i].rating_value;
-  }
-  var avg = total / fuck.length;
-  return avg;
-}
-else{return 0;}
-};
-
-
+    $scope.AverageRating = function(result) {
+        var fuck = $scope.Ratingfilter(result._id);
+        var total = 0;
+        if (fuck.length > 0) {
+            for (var i = 0; i < fuck.length; i++) {
+                total += fuck[i].rating_value;
+            }
+            var avg = total / fuck.length;
+            return avg;
+        } else {
+            return 0;
+        }
+    };
 
 
 })
