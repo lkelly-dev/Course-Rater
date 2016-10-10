@@ -104,8 +104,8 @@ router.route('/courses')
         var course = new Course(); // create a new instance of the Course model
         course.name = req.body.name; //set the courses name
         course.instructors = req.body.instructors; // set the courses instructors (comes from the request)
-        course.rating = req.body.rating;
-        course.numberOfRatings = req.body.numberOfRatings;
+        course.short_description = req.body.short_description;
+        course.long_description = req.body.long_description;
         course.sections = req.body.sections;
         // save the course and check for errors
         course.save(function(err) {
@@ -140,8 +140,8 @@ router.route('/courses/:course_id')
 
             course.name = req.body.name; // update the courses info
             course.instructors = req.body.instructors;
-            course.rating = req.body.rating;
-            course.numberOfRatings = req.body.numberOfRatings;
+            course.short_description = req.body.short_description;
+            course.long_description = req.body.long_description;
             course.sections = req.body.sections;
 
             // save the course

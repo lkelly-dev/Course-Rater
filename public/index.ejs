@@ -38,25 +38,15 @@
 <body class="courserater-body" ng-cloak>
     <div class="container" ng-controller="CoursesCtrl" >
         <form name="Codenx" novalidate>
-            <table class="table" style="border-collapse: separate; border-spacing: 0px 10px;">
-                <thead >
-                    <tr class="header-card">
-                        <th style="width:20%; padding-left:30px;">Name</th>
-                        <th style="width:20%">Instructors</th>
-                        <th style="width:20%">Rating</th>
-                        <th style="width:20%">Number of Ratings</th>
-                        <th style="width:20%"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><input class="rater-input" ng-model="search_param" required="" placeholder="Search for a course" search></tr>
-                </tbody>
-            </table>
+
+                    <input class="rater-input" ng-model="search_param" required="" placeholder="Search for a course" search>
+
 
             <div ng-repeat="result in results" ng-click="rate(result._id)" style="margin-bottom: 20px;" class="card">
                 <div ng-click="isCollapsed = !isCollapsed;"  style="cursor: pointer; padding-bottom:10px;">
-                    <div class="course-card">{{result.name}}</div>
-                    <div class="course-card">
+                    <div style="font-size: 28px;" class="course-card">{{result.name}}</div>
+                    <div class="course-card">{{result.short_description}}</div>
+                    <!-- <div class="course-card"> INSTRUCTORS
                         <table>
                             <tr ng-repeat="prof in result.instructors track by $index">
                                 <td>
@@ -64,20 +54,31 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>
-                    <!-- <div class="course-card">{{result.rating}}</div> -->
-                    <div class="course-card">{{AverageRating(result)}}</div>
-                    <div class="course-card">{{Ratingfilter(result._id).length}}</div>
-
-                    <!-- <div class="course-card">{{result.numberOfRatings}}</div> -->
+                    </div> -->
+                    <div style="position: absolute; right: 0px;" class="course-card">Rating: {{AverageRating(result)}}/5</div>
+                    <!-- <div class="course-card">{{Ratingfilter(result._id).length}}</div> NUMBER OF RATINGS-->
                   </div>
 
                 <div ng-show="isCollapsed" class="card-bottom" >
+                  <div class="course-card" style="display:block; width:75%; font-size:14px; padding-bottom: 10px;">{{result.long_description}}</div>
+                  <table>
+                    <tr style="font-size:18px; font-weight:normal !important;">
+                        <th style="font-weight:normal">Section</th>
+                        <th style="font-weight:normal">Size</th>
+                        <th style="font-weight:normal">Instructor</th>
+                    </tr>
+                    <tr ng-if="sect.code[0] == 'L'" ng-repeat="sect in result.sections">
+
+                      <td style="padding-right: 30px;">{{sect.code}}</td>
+                      <td style="padding-right: 30px;">{{sect.size}}</td>
+                      <td>{{sect.instructors[0]}}</td>
+                      <td></td>
+                    </tr>
+                  </table>
                   <% if(login){ %>
+                    <hr class="course-hr">
                   <div class="course-card" style="width: 200px;"><input class="form-control"  ng-model="result.new_rating" required="" ng-if"!Ratingfilter(result._id, user._id)[0].rating_value" placeholder="Rate"></input></div>
-                  <!-- <div class="course-card" style="width: 100px;"><button class="btn btn-danger" ng-click="update(course, search_param); createRating(result.new_rating, user._id, result._id); course.rating = rating_update(result.new_rating, result.rating, result.numberOfRatings); course.numberOfRatings = (course.numberOfRatings + 1); getRating();" ng-if="result._id && !Ratingfilter(result._id, user._id).rating_value" type="submit">Submit</button></div> -->
                     <div class="course-card" style="width: 100px;"><button class="btn btn-danger" ng-click="Submit(search_param, user._id, result);" ng-if="result._id && !Ratingfilter(result._id, user._id)[0].rating_value" type="submit">Submit</button></div>
-                  <!-- <div class="course-card" style="width: 100px;">{{(allRatings | filter:{courseID:result._id, userID:user._id})}}</div> -->
                   <div class="course-card" ng-if="Ratingfilter(result._id, user._id)[0].rating_value" style="width: 100px;">Your rating: {{Ratingfilter(result._id, user._id)[0].rating_value}}</div>
                   <% } else{ %>
                     <div>Login to Rate</div>

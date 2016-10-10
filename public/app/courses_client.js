@@ -56,12 +56,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
 
 
 
-    // $scope.fix_array = function(instructors) {
-    //     var partsOfStr = instructors.split(',');
-    //     return partsOfStr;
-    // };
-
-
     add = function(course) {
         Course.save(course, function(course) {
             refresh();
@@ -77,31 +71,28 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
 
 
 
-    createCourse = function(name, instructors, sections) {
+    createCourse = function(name, instructors, short_description, long_description, sections) {
         $scope.course = new Course();
         $scope.course.name = name;
         $scope.course.instructors = instructors;
-        $scope.course.rating = 0;
-        $scope.course.numberOfRatings = 0;
+        $scope.course.short_description = short_description;
+        $scope.course.long_description = long_description;
         $scope.course.sections = sections;
-        //console.log(location);
         add($scope.course);
     };
 
 
 
     populate_server = function() {
-
         var jsonData = httpGet("https://raw.githubusercontent.com/cobalt-uoft/datasets/master/courses.json");
         var lines = jsonData.split('\n');
-
-        //lines.length - 1
-
         for (x = 3709; x < 3770; x++) {
             //console.log("WTF");
             var course = JSON.parse(lines[x]);
             //console.log(course);
             var courseName = course.code;
+            var courseShortDescription = course.name;
+            var courseLongDescription = course.description;
             var courseSections = course.meeting_sections;
             var instructors = [];
 
@@ -114,10 +105,9 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
                         instructors.push(courseSections[i].instructors[j]);
                     }
                 }
-
             }
             //console.log(courseName);
-            createCourse(courseName, instructors, courseSections);
+            createCourse(courseName, instructors, courseShortDescription, courseLongDescription, courseSections);
         }
     };
 
@@ -131,7 +121,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         success(function(data, status, headers, config) {
             $scope.results = [];
             for (i = 0; i < data.length; i++) {
-                if (data[i].name && data[i].name.includes(val)) {
+                if (data[i].name && data[i].name.includes(val.toUpperCase())) {
                     $scope.results.push(data[i]);
                 }
                 if ($scope.results.length == 15) {

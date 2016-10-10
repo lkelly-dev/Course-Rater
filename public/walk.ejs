@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/ngProgress.css">
     <link rel="stylesheet" href="css/toaster.css">
-    <link rel="stylesheet" href="css/mycss.css">
+    <link rel="stylesheet" href="css/mycss-distance.css">
 
     <script src="js/angular.min.js" type="text/javascript"></script>
     <script src="js/angular-resource.min.js" type="text/javascript"></script>
@@ -67,7 +67,7 @@
                             <div style="width: 33%;" class="course-card">
                                 {{result.building}}
                             </div>
-                            <div class="course-card">{{result.rating}}</div>
+                            <div class="course-card">{{AverageRating(result)}}</div>
                         </div>
                         <div ng-show="isCollapsed" class="card-bottom" style="overflow-y: auto; max-height: 20%;">
                             <!-- <div addCourse(result); increment();>Login to Rate</div> -->

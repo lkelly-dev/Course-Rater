@@ -4,6 +4,7 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     $scope.building = new Building();
     $scope.allBuildings = Building.query();
     $scope.allCourses = Course.query();
+    $scope.allRatings = Rating.query();
     $scope.user = window.user;
     $scope.results = [];
     $scope.picked_courses = [];
@@ -37,7 +38,7 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
         success(function(data, status, headers, config) {
             $scope.results = [];
             for (i = 0; i < data.length; i++) {
-                if (data[i].name && data[i].name.includes(val)) {
+                if (data[i].name && data[i].name.includes(val.toUpperCase())) {
                     $scope.results.push(data[i]);
                 }
                 if($scope.results.length == 15){
@@ -113,6 +114,32 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
         $scope.building = building.get({
             id: id
         });
+    };
+
+    $scope.Ratingfilter = function(Course_id, User_id) {
+        if (User_id) {
+            return $filter('filter')($scope.allRatings, {
+                courseID: Course_id,
+                userID: User_id
+            });
+        }
+        return $filter('filter')($scope.allRatings, {
+            courseID: Course_id
+        });
+    };
+
+    $scope.AverageRating = function(result) {
+        var fuck = $scope.Ratingfilter(result._id);
+        var total = 0;
+        if (fuck.length > 0) {
+            for (var i = 0; i < fuck.length; i++) {
+                total += fuck[i].rating_value;
+            }
+            var avg = total / fuck.length;
+            return avg;
+        } else {
+            return 0;
+        }
     };
 
 

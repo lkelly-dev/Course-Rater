@@ -6,8 +6,8 @@ var Schema = mongoose.Schema;
 var CourseSchema = new Schema({
     name: String,
     instructors: Array,
-    rating: Number,
-    numberOfRatings: Number,
+    short_description: String,
+    long_description: String,
     sections: Array
 
 });
