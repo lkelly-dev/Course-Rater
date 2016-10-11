@@ -226,5 +226,30 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         }
     };
 
+    $scope.timeCalc = function(courseTime){
+      var start = courseTime[0].start / 3600;
+      var end =  courseTime[0].end / 3600;
+      if(start > 12){
+        start = (start - 12) + "pm";
+      }
+      else{
+        start = start + "am";
+      }
+      if(end > 12){
+        end = (end - 12) + "pm";
+      }
+      else{
+        end = end + "am";
+      }
+      var time =  start + " - " + end;
+      var days = "";
+      for(i = 0; i < courseTime.length; i++){
+        days = days + " " + courseTime[i].day.substring(0, 3).toLowerCase();
+      }
+
+      return time + " -- " + days;
+
+    };
+
 
 })

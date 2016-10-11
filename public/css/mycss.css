@@ -84,6 +84,17 @@
     border-radius: 3px;
 }
 
+#distance_link{
+float:left;
+display: inline-block;
+position:absolute;
+left: 0;
+color:white;
+margin-top: 10px;
+margin-left: 10px;
+
+}
+
 .rater-input {
     display: block;
     width: 100%;

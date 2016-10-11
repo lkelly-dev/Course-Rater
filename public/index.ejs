@@ -20,6 +20,7 @@
     <script>var user = <%- JSON.stringify(user) %>; angular.module('PreloadedData', []) .constant('User', user);</script>
 
     <div class="header-courserater" ng-controller="CoursesCtrl" style="position:relative;">
+      <a href="/walk"  id="distance_link">Course Distances</a>
       <div id="top-buttons">
       <% if(login){ %>
       <button onclick="location.href='/profile';" class="button-material">{{user.local.name}}</button>
@@ -38,10 +39,7 @@
 <body class="courserater-body" ng-cloak>
     <div class="container" ng-controller="CoursesCtrl" >
         <form name="Codenx" novalidate>
-
-                    <input class="rater-input" ng-model="search_param" required="" placeholder="Search for a course" search>
-
-
+            <input class="rater-input" ng-model="search_param" required="" placeholder="Search for a course" search>
             <div ng-repeat="result in results" ng-click="rate(result._id)" style="margin-bottom: 20px;" class="card">
                 <div ng-click="isCollapsed = !isCollapsed;"  style="cursor: pointer; padding-bottom:10px;">
                     <div style="font-size: 28px;" class="course-card">{{result.name}}</div>
@@ -66,17 +64,20 @@
                         <th style="font-weight:normal">Section</th>
                         <th style="font-weight:normal">Size</th>
                         <th style="font-weight:normal">Instructor</th>
+                        <th style="font-weight:normal">Location</th>
+                        <th style="font-weight:normal">Time</th>
                     </tr>
                     <tr ng-if="sect.code[0] == 'L'" ng-repeat="sect in result.sections">
 
                       <td style="padding-right: 30px;">{{sect.code}}</td>
                       <td style="padding-right: 30px;">{{sect.size}}</td>
-                      <td>{{sect.instructors[0]}}</td>
-                      <td></td>
+                      <td style="padding-right: 30px;">{{sect.instructors[0]}}</td>
+                      <td style="padding-right: 30px;">{{sect.times[0].location}}</td>
+                      <td>{{timeCalc(sect.times)}}</td>
                     </tr>
                   </table>
+                  <hr class="course-hr">
                   <% if(login){ %>
-                    <hr class="course-hr">
                   <div class="course-card" style="width: 200px;"><input class="form-control"  ng-model="result.new_rating" required="" ng-if"!Ratingfilter(result._id, user._id)[0].rating_value" placeholder="Rate"></input></div>
                     <div class="course-card" style="width: 100px;"><button class="btn btn-danger" ng-click="Submit(search_param, user._id, result);" ng-if="result._id && !Ratingfilter(result._id, user._id)[0].rating_value" type="submit">Submit</button></div>
                   <div class="course-card" ng-if="Ratingfilter(result._id, user._id)[0].rating_value" style="width: 100px;">Your rating: {{Ratingfilter(result._id, user._id)[0].rating_value}}</div>
