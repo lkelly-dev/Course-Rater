@@ -142,7 +142,6 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
         }
     };
 
-
     NgMap.getMap().then(function(map) {
     // console.log(map.getCenter());
     // console.log('markers', map.markers);
@@ -169,7 +168,6 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
             }
       }
       else{
-
 
       }
   };

@@ -8,7 +8,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     $scope.allRatings = Rating.query();
 
 
-
     var refresh = function() {
         $scope.courses = Course.query();
         $scope.ratings = Rating.query();
@@ -69,8 +68,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         return xmlHttp.responseText;
     };
 
-
-
     createCourse = function(name, instructors, short_description, long_description, sections) {
         $scope.course = new Course();
         $scope.course.name = name;
@@ -80,7 +77,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         $scope.course.sections = sections;
         add($scope.course);
     };
-
 
 
     populate_server = function() {
@@ -142,7 +138,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         });
     };
 
-
     $scope.update_rating = function(rating) {
         rating.$update(function() {
             refresh();
@@ -162,7 +157,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     };
 
     $scope.createRating = function(rating_value, userID, courseID) {
-
         $scope.rating = new Rating();
         $scope.rating.rating_value = rating_value;
         $scope.rating.userID = userID;
@@ -246,9 +240,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
       for(i = 0; i < courseTime.length; i++){
         days = days + " " + courseTime[i].day.substring(0, 3).toLowerCase();
       }
-
       return time + " -- " + days;
-
     };
 
 
