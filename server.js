@@ -16,6 +16,7 @@ var bodyParser = require('body-parser');
 var Course = require('./models/course');
 var Rating = require('./models/rating');
 var Building = require('./models/building');
+var Courselist = require('./models/courselist');
 
 
 var port = process.env.PORT || 8080;
@@ -337,6 +338,94 @@ router.route('/buildings/:building_id')
         Building.remove({
             _id: req.params.building_id
         }, function(err, building) {
+            if (err)
+                res.send(err);
+
+            res.json({
+                message: 'Successfully deleted'
+            });
+        });
+    });
+
+
+//SEPARATE
+
+//SEPARATE
+
+
+
+// more routes for our API will happen here
+// on routes that end in /rating
+// ----------------------------------------------------
+router.route('/courselists')
+    // get all the ratings (accessed at GET http://localhost:8080/api/ratings)
+    .get(function(req, res) {
+        Courselist.find(function(err, courselist) {
+            if (err)
+                res.send(err);
+
+            res.json(courselist);
+        });
+    })
+    // create a course (accessed at POST http://localhost:8080/api/ratings)
+    .post(function(req, res) {
+        console.log(mongoose.connection.readyState);
+        var courselist = new Courselist();
+        courselist.user = req.body.user;
+        courselist.list = req.body.list;
+
+        // save the course and check for errors
+        courselist.save(function(err) {
+            if (err)
+                res.send(err);
+
+            res.json({
+                message: 'CourseList added!'
+            });
+        });
+    });
+// on routes that end in /courses/:course_id
+// ----------------------------------------------------
+router.route('/courselists/:courselist_id')
+
+// get the rating with that id (accessed at GET http://localhost:8080/api/courses/:rating_id)
+.get(function(req, res) {
+        Courselist.findById(req.params.courselist_id, function(err, courselist) {
+            if (err)
+                res.send(err);
+            res.json(courselist);
+        });
+    })
+    // update the rating with this id (accessed at PUT http://localhost:8080/api/courses/:course_id)
+    .put(function(req, res) {
+
+        // use our course model to find the course we want
+        Courselist.findById(req.params.courselist_id, function(err, courselist) {
+
+            if (err)
+                res.send(err);
+
+                courselist.user = req.body.user;
+                courselist.list = req.body.list;
+
+
+            // save the course
+            courselist.save(function(err) {
+                if (err)
+                    res.send(err);
+
+                res.json({
+                    message: 'courselist updated!'
+                });
+            });
+
+        });
+    })
+    // delete the bear with this id (accessed at DELETE http://localhost:8080/api/bears/:bear_id)
+    .delete(function(req, res) {
+        Courselist.remove({
+            _id: req.params.courselist_id
+        }, function(err, courselist) {
             if (err)
                 res.send(err);
 
