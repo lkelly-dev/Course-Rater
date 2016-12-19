@@ -41,7 +41,7 @@ app.directive('loading', ['$http', 'ngProgress', function($http, ngProgress) {
 
 // Create a resource factory to access products table from database
 app.factory('Course', function($resource) {
-    return $resource('http://localhost:8080/api/courses/:id', {
+    return $resource('https://courserater.herokuapp.com/api/courses/:id', {
         id: '@_id'
     }, {
         update: { // Defined manually as it is not provided with ng-resource
@@ -53,7 +53,7 @@ app.factory('Course', function($resource) {
 
 
 app.factory('Rating', function($resource) {
-    return $resource('http://localhost:8080/api/ratings/:id', {
+    return $resource('https://courserater.herokuapp.com/api/ratings/:id', {
         id: '@_id'
     }, {
         update: { // Defined manually as it is not provided with ng-resource
@@ -63,7 +63,7 @@ app.factory('Rating', function($resource) {
 });
 
 app.factory('Building', function($resource) {
-    return $resource('http://localhost:8080/api/buildings/:id', {
+    return $resource('https://courserater.herokuapp.com/api/buildings/:id', {
         id: '@_id'
     }, {
         update: { // Defined manually as it is not provided with ng-resource
