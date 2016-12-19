@@ -151,7 +151,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     };
 
     $scope.edit_rating = function(id) {
-        $scope.rating = Course.get({
+        $scope.rating = Rating.get({
             id: id
         });
     };
@@ -221,6 +221,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     };
 
     $scope.timeCalc = function(courseTime){
+      if(courseTime[0]){
       var start = courseTime[0].start / 3600;
       var end =  courseTime[0].end / 3600;
       if(start > 12){
@@ -241,6 +242,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
         days = days + " " + courseTime[i].day.substring(0, 3).toLowerCase();
       }
       return time + " -- " + days;
+    }
     };
 
 
