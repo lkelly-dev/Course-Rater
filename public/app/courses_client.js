@@ -1,14 +1,11 @@
-app.controller('CoursesCtrl', function($scope, Course, Rating, Courselist, ngProgress, toaster, $http, $filter) {
+app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toaster, $http, $filter) {
 
     $scope.course = new Course();
     $scope.rating = new Rating();
-    $scope.courselist = new Courselist();
     $scope.results = [];
-    $scope.picked_courses = [];
     $scope.isCollapsed = false;
     $scope.user = window.user;
     $scope.allRatings = Rating.query();
-    $scope.allCourseLists = Courselist.query();
 
 
     var refresh = function() {
@@ -154,7 +151,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, Courselist, ngPro
     };
 
     $scope.edit_rating = function(id) {
-        $scope.rating = Rating.get({
+        $scope.rating = Course.get({
             id: id
         });
     };
@@ -224,7 +221,6 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, Courselist, ngPro
     };
 
     $scope.timeCalc = function(courseTime){
-      if(courseTime[0]){
       var start = courseTime[0].start / 3600;
       var end =  courseTime[0].end / 3600;
       if(start > 12){
@@ -245,73 +241,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, Courselist, ngPro
         days = days + " " + courseTime[i].day.substring(0, 3).toLowerCase();
       }
       return time + " -- " + days;
-    }
     };
-
-
-
-
-
-
-
-
-
-    $scope.addToMyList = function(course, section){
-      if($scope.picked_courses.indexOf(section) == -1){
-        section.name = course.name;
-        $scope.picked_courses.push(section);
-
-      }
-      console.log($scope.picked_courses);
-    };
-
-
-
-    $scope.addCourseList = function(courselist) {
-        Courselist.save(courselist, function(courselist) {
-            refresh();
-        });
-    };
-
-    $scope.edit_courselist = function(id) {
-        $scope.courselist = Courselist.get({
-            id: id
-        });
-        refresh();
-    };
-
-    $scope.update_courselist = function(courselist) {
-        courselist.$update(function() {
-            refresh();
-        });
-    };
-    $scope.createCourselist = function() {
-        $scope.courselist = new Courselist();
-        $scope.courselist.user = $scope.user._id;
-        // var test = {name: "Aslan", origin: "narnia"};
-        // var test2 = {name: "Harry", origin: "hogwarts"};
-        $scope.courselist.list = [];
-        $scope.addCourseList($scope.courselist);
-    };
-
-    $scope.test = function(){
-      // var id = "57fd74ad2d5e80dd64e10337";
-      // $scope.edit_courselist(id);
-      // var hey = "MATH CLASS";
-      // console.log($scope.courselist.user);
-      //$scope.courselist.list.push(hey);
-
-      var ugh = Courselist.get({
-          id: "57fd74ad2d5e80dd64e10337"
-      });
-      console.log(ugh);
-      //ugh.list.push("hello");
-      //$scope.update_courselist(ugh);
-    }
-
-
-
-
 
 
 })

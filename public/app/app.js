@@ -72,16 +72,6 @@ app.factory('Building', function($resource) {
     });
 });
 
-app.factory('Courselist', function($resource) {
-    return $resource('http://localhost:8080/api/courselists/:id', {
-        id: '@_id'
-    }, {
-        update: { // Defined manually as it is not provided with ng-resource
-            method: 'PUT'
-        }
-    });
-});
-
 
 
 
