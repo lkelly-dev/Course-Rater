@@ -33,7 +33,7 @@ app.controller('DistancesCtrl', function($scope, Course, ngProgress, Rating, Bui
     $scope.search = function(val) {
         $http({
             method: 'GET',
-            url: 'http://localhost:8080/api/courses'
+            url: 'https://courserater.herokuapp.com/api/courses'
         }).
         success(function(data, status, headers, config) {
             $scope.results = [];

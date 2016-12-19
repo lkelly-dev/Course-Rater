@@ -112,7 +112,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     $scope.search = function(val) {
         $http({
             method: 'GET',
-            url: 'http://localhost:8080/api/courses'
+            url: 'https://courserater.herokuapp.com/api/courses'
         }).
         success(function(data, status, headers, config) {
             $scope.results = [];
@@ -167,7 +167,7 @@ app.controller('CoursesCtrl', function($scope, Course, Rating, ngProgress, toast
     $scope.getRating = function() {
         $http({
             method: 'GET',
-            url: 'http://localhost:8080/api/ratings'
+            url: 'https://courserater.herokuapp.com/api/ratings'
         }).
         success(function(data, status, headers, config) {
             //console.log(data);
